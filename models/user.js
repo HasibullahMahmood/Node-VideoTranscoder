@@ -1,10 +1,10 @@
 const sql = require('mssql');
 
 module.exports = class User {
-	constructor(name, surname, companyName, phoneNumber, email, password) {
+	constructor(name, surname, companyId, phoneNumber, email, password) {
 		this.name = name;
 		this.surname = surname;
-		this.companyName = companyName;
+		this.companyId = companyId;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.password = password;
@@ -15,16 +15,17 @@ module.exports = class User {
 			let pool = await sql.connect();
 			let insertedUser = await pool
 				.request()
-				.input('Name', sql.NVarChar, this.name)
-				.input('Surname', sql.NVarChar, this.surname)
-				.input('CompanyName', sql.NVarChar, this.companyName)
-				.input('PhoneNumber', sql.BigInt, this.phoneNumber)
-				.input('Email', sql.NVarChar, this.email)
-				.input('Password', sql.NVarChar, this.password)
+				.input('name', sql.NVarChar, this.name)
+				.input('surname', sql.NVarChar, this.surname)
+				.input('companyId', sql.Int, this.companyId)
+				.input('phoneNumber', sql.NVarChar, this.phoneNumber)
+				.input('email', sql.NVarChar, this.email)
+				.input('password', sql.NVarChar, this.password)
 				.query(`INSERT INTO Users 
-                    (Name, Surname, CompanyName, PhoneNumber, Email, Password) 
-              VALUES(@Name, @Surname, @CompanyName, @PhoneNumber, @Email, @Password)`);
-			return insertedUser.recordsets;
+                    (name, surname, companyId, phoneNumber, email, password) 
+					VALUES(@name, @surname, @companyId, @phoneNumber, @email, @password);
+					SELECT id FROM Users WHERE id = SCOPE_IDENTITY();`);
+			return insertedUser.recordset[0];
 		} catch (err) {
 			console.log('Error in saving the user: ');
 			console.log(err);
@@ -47,8 +48,8 @@ module.exports = class User {
 			let pool = await sql.connect();
 			let user = await pool
 				.request()
-				.input('Email', sql.NVarChar, email)
-				.query(`SELECT * FROM Users WHERE Users.Email = @Email`);
+				.input('email', sql.NVarChar, email)
+				.query(`SELECT * FROM Users WHERE Users.email = @email`);
 
 			return user.recordset[0];
 		} catch (err) {

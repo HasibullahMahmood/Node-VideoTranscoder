@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const Company = require('../models/company');
 
 exports.signup = (req, res, next) => {
 	const errors = validationResult(req);
@@ -18,24 +19,31 @@ exports.signup = (req, res, next) => {
 	const phoneNumber = req.body.phoneNumber;
 	const email = req.body.email;
 	const password = req.body.password;
+	let hashedPass;
 
 	bcrypt
 		.hash(password, 12)
 		.then((hashedPw) => {
+			hashedPass = hashedPw;
+			const company = new Company(companyName);
+			return company.save();
+		})
+		.then((insertedCompany) => {
 			const user = new User(
 				name,
 				surname,
-				companyName,
+				insertedCompany.id,
 				phoneNumber,
 				email,
-				hashedPw
+				hashedPass
 			);
 			return user.save();
 		})
-		.then(() => {
+		.then((insertedUser) => {
 			res.status(201).json({
 				message: 'User created!',
 				result: true,
+				data: insertedUser,
 			});
 		})
 		.catch((err) => {
@@ -49,8 +57,6 @@ exports.login = (req, res, next) => {
 	let loadedUser;
 	User.findByEmail(email)
 		.then((user) => {
-			console.log(user);
-
 			if (!user) {
 				const error = new Error(
 					'A user with this email could not be found.'
@@ -58,7 +64,7 @@ exports.login = (req, res, next) => {
 				throw error;
 			}
 			loadedUser = user;
-			return bcrypt.compare(password, user.Password);
+			return bcrypt.compare(password, user.password);
 		})
 		.then((isEqual) => {
 			if (!isEqual) {
@@ -67,15 +73,16 @@ exports.login = (req, res, next) => {
 			}
 			const token = jwt.sign(
 				{
-					email: loadedUser.Email,
-					userId: loadedUser.ID.toString(),
+					email: loadedUser.email,
+					userId: loadedUser.id.toString(),
 				},
 				'somesupersecretsecret',
 				{ expiresIn: '1h' }
 			);
 			res.status(200).json({
 				token: token,
-				userId: loadedUser.ID.toString(),
+				userId: loadedUser.id,
+				result: true,
 			});
 		})
 		.catch((err) => {

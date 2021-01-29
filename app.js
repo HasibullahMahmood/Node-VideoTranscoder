@@ -32,6 +32,12 @@ app.use((req, res, next) => {
 	next();
 });
 
+// app.use((req, res, next) => {
+// 	console.log(req.url);
+// 	console.log(req.body);
+// 	next();
+// });
+
 // ROUTES HERE
 app.use('/auth', authRoutes);
 
