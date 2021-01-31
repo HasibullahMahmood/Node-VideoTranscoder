@@ -54,6 +54,7 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
+	const expiresIn = 3600; // 3600 seconds = 1 hr
 	let loadedUser;
 	User.findByEmail(email)
 		.then((user) => {
@@ -77,12 +78,13 @@ exports.login = (req, res, next) => {
 					userId: loadedUser.id.toString(),
 				},
 				'somesupersecretsecret',
-				{ expiresIn: '1h' }
+				{ expiresIn: expiresIn }
 			);
 			res.status(200).json({
 				token: token,
 				userId: loadedUser.id,
 				result: true,
+				expiresIn: expiresIn,
 			});
 		})
 		.catch((err) => {
