@@ -7,6 +7,8 @@ const multer = require('multer'); // for uploading files
 // LOCAL FILES IMPORT
 const db = require('./util/database');
 const authRoutes = require('./routes/auth');
+const companyRoutes = require('./routes/company');
+
 const { fileFilter, fileStorage } = require('./util/fileMethods');
 
 const app = express();
@@ -40,6 +42,7 @@ app.use((req, res, next) => {
 
 // ROUTES HERE
 app.use('/auth', authRoutes);
+app.use('/company', companyRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {
@@ -48,7 +51,7 @@ app.use((error, req, res, next) => {
 	res.json({ message: message, data: data, result: false });
 });
 
-// START THE DB AND THEN RUN THE SERVER
+// CONNECT TO DB AND THEN RUN THE SERVER
 (async () => {
 	const isConnected = await db.createConnectionPool();
 	if (isConnected) {
