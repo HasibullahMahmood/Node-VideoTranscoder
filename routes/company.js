@@ -8,5 +8,7 @@ const router = express.Router();
 
 // update company
 router.put('', isAuth, companyController.update);
+// get company Info
+router.get('', isAuth, companyController.getData);
 
 module.exports = router;

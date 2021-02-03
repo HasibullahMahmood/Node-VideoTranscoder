@@ -8,6 +8,7 @@ const multer = require('multer'); // for uploading files
 const db = require('./util/database');
 const authRoutes = require('./routes/auth');
 const companyRoutes = require('./routes/company');
+const userRoutes = require('./routes/user');
 
 const { fileFilter, fileStorage } = require('./util/fileMethods');
 
@@ -43,6 +44,7 @@ app.use((req, res, next) => {
 // ROUTES HERE
 app.use('/auth', authRoutes);
 app.use('/company', companyRoutes);
+app.use('/user', userRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {

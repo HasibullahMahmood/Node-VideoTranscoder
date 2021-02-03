@@ -3,6 +3,24 @@ const { validationResult } = require('express-validator/check');
 const Company = require('../models/company');
 const User = require('../models/user');
 
+exports.getData = (req, res, next) => {
+	const userId = req.userId;
+	User.findById(userId)
+		.then((user) => {
+			const companyId = user.companyId;
+			return Company.findById(companyId);
+		})
+		.then((company) => {
+			return res.json({
+				result: true,
+				company,
+			});
+		})
+		.catch((err) => {
+			next(err);
+		});
+};
+
 exports.update = (req, res, next) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {

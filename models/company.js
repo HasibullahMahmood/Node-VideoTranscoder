@@ -95,4 +95,18 @@ module.exports = class Company {
 			console.log(err);
 		}
 	};
+
+	static findById = async (id) => {
+		try {
+			let pool = await sql.connect();
+			let user = await pool
+				.request()
+				.input('id', sql.Int, id)
+				.query(`SELECT * FROM Companies WHERE Companies.id = @id`);
+
+			return user.recordset[0];
+		} catch (err) {
+			console.log(err);
+		}
+	};
 };
