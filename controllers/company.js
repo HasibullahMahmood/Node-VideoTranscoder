@@ -1,13 +1,17 @@
 const { validationResult } = require('express-validator/check');
+const fs = require('fs');
+const path = require('path');
 
 const Company = require('../models/company');
 const User = require('../models/user');
 
 exports.getData = (req, res, next) => {
 	const userId = req.userId;
+
 	User.findById(userId)
 		.then((user) => {
 			const companyId = user.companyId;
+
 			return Company.findById(companyId);
 		})
 		.then((company) => {
@@ -30,13 +34,13 @@ exports.update = (req, res, next) => {
 	}
 
 	const userId = req.userId;
+	let companyId = '';
 	const {
 		telephoneNumber,
 		fax,
 		address1,
 		address2,
 		title,
-		logoRef,
 		taxAdministration,
 		taxNumber,
 		province,
@@ -45,9 +49,25 @@ exports.update = (req, res, next) => {
 		state,
 	} = req.body;
 
+	let logoRef = req.body.logoRef;
+	if (req.file) {
+		logoRef = 'companyLogo/' + req.file.filename;
+	}
+
 	User.findById(userId)
 		.then((user) => {
-			const companyId = user.companyId;
+			companyId = user.companyId;
+
+			return Company.findById(companyId);
+		})
+		.then((companyOldData) => {
+			if (
+				logoRef !== companyOldData.logoRef &&
+				companyOldData.logoRef != null
+			) {
+				clearImage(companyOldData.logoRef);
+			}
+
 			return Company.update(
 				companyId,
 				telephoneNumber,
@@ -73,4 +93,9 @@ exports.update = (req, res, next) => {
 		.catch((err) => {
 			next(err);
 		});
+};
+
+const clearImage = (filePath) => {
+	filePath = path.join(__dirname, '..', 'public', filePath);
+	fs.unlink(filePath, (err) => console.log(err));
 };
