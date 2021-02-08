@@ -25,18 +25,18 @@ module.exports = class Company {
 
 	static update = async (
 		id,
-		telephoneNumber,
-		fax,
-		address1,
-		address2,
-		title,
-		logoRef,
-		taxAdministration,
-		taxNumber,
-		province,
-		district,
-		email,
-		state
+		telephoneNumber = '',
+		country = '',
+		address1 = '',
+		address2 = '',
+		title = '',
+		logoRef = '',
+		taxAdministration = '',
+		taxNumber = '',
+		province = '',
+		district = '',
+		email = '',
+		state = ''
 	) => {
 		try {
 			let pool = await sql.connect();
@@ -44,7 +44,7 @@ module.exports = class Company {
 				.request()
 				.input('id', sql.Int, id)
 				.input('telephoneNumber', sql.NVarChar, telephoneNumber)
-				.input('fax', sql.NVarChar, fax)
+				.input('country', sql.NVarChar, country)
 				.input('address1', sql.NVarChar, address1)
 				.input('address2', sql.NVarChar, address2)
 				.input('title', sql.NVarChar, title)
@@ -54,13 +54,13 @@ module.exports = class Company {
 				.input('province', sql.NVarChar, province)
 				.input('district', sql.NVarChar, district)
 				.input('email', sql.NVarChar, email)
-				.input('state', sql.NVarChar, state)
+				.input('state', sql.Bit, state)
 
 				.query(
 					`UPDATE Companies
 					 	SET 
 							telephoneNumber = @telephoneNumber,
-							fax = @fax,
+							country = @country,
 							address1 = @address1,
 							address2 = @address2,
 							title = @title,

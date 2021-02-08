@@ -37,7 +37,7 @@ exports.update = (req, res, next) => {
 	let companyId = '';
 	const {
 		telephoneNumber,
-		fax,
+		country,
 		address1,
 		address2,
 		title,
@@ -46,7 +46,6 @@ exports.update = (req, res, next) => {
 		province,
 		district,
 		email,
-		state,
 	} = req.body;
 
 	let logoRef = req.body.logoRef;
@@ -71,7 +70,7 @@ exports.update = (req, res, next) => {
 			return Company.update(
 				companyId,
 				telephoneNumber,
-				fax,
+				country,
 				address1,
 				address2,
 				title,
@@ -81,7 +80,7 @@ exports.update = (req, res, next) => {
 				province,
 				district,
 				email,
-				state
+				1
 			);
 		})
 		.then((updatedCompany) => {
@@ -96,6 +95,8 @@ exports.update = (req, res, next) => {
 };
 
 const clearImage = (filePath) => {
-	filePath = path.join(__dirname, '..', 'public', filePath);
-	fs.unlink(filePath, (err) => console.log(err));
+	if (filePath != null) {
+		filePath = path.join(__dirname, '..', 'public', filePath);
+		fs.unlink(filePath, (err) => console.log(err));
+	}
 };
