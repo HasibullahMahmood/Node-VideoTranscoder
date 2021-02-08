@@ -97,6 +97,6 @@ exports.update = (req, res, next) => {
 const clearImage = (filePath) => {
 	if (filePath != null) {
 		filePath = path.join(__dirname, '..', 'public', filePath);
-		fs.unlink(filePath, (err) => console.log(err));
+		fs.unlink(filePath, (err) => {});
 	}
 };
