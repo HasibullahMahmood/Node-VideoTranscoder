@@ -50,4 +50,12 @@ router.post(
 	userController.addUser
 );
 
+// /user/delete-user
+router.delete(
+	'/delete-user',
+	isAuth,
+	[body('id').trim().not().isEmpty()],
+	userController.deleteUser
+);
+
 module.exports = router;

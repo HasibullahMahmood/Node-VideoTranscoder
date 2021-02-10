@@ -110,3 +110,22 @@ exports.addUser = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.deleteUser = async (req, res, next) => {
+	try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			const error = new Error('Validation failed.');
+			error.data = errors.array();
+			throw error;
+		}
+
+		const userId = req.body.id;
+		await User.deleteUser(userId);
+		return res.json({
+			result: true,
+		});
+	} catch (error) {
+		next(error);
+	}
+};

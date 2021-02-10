@@ -157,4 +157,17 @@ module.exports = class User {
 			console.log(error);
 		}
 	};
+
+	static deleteUser = async (id) => {
+		try {
+			const pool = await sql.connect();
+			const obj = await pool
+				.request()
+				.input('id', sql.Int, id)
+				.query(`DELETE FROM Users WHERE Users.id = @id;`);
+			return obj;
+		} catch (error) {
+			console.log(error);
+		}
+	};
 };
