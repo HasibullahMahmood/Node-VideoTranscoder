@@ -12,7 +12,7 @@ module.exports = class Company {
 				.request()
 				.input('name', sql.NVarChar, this.name)
 				.query(
-					`INSERT INTO Companies (name) VALUES(@name); 
+					`INSERT INTO Companies (name, state) VALUES(@name, 1); 
 					 SELECT * FROM Companies WHERE id = SCOPE_IDENTITY();`
 				);
 			return insertedCompany.recordset[0];

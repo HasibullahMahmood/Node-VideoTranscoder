@@ -6,23 +6,22 @@ const User = require('../models/user');
 const Company = require('../models/company');
 
 exports.signup = async (req, res, next) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		const error = new Error('Validation failed.');
-		error.data = errors.array();
-		throw error;
-	}
-
-	const {
-		name,
-		surname,
-		companyName,
-		phoneNumber,
-		email,
-		password,
-	} = req.body;
-
 	try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			const error = new Error('Validation failed.');
+			error.data = errors.array();
+			throw error;
+		}
+
+		const {
+			name,
+			surname,
+			companyName,
+			phoneNumber,
+			email,
+			password,
+		} = req.body;
 		const hashedPass = await bcrypt.hash(password, 12);
 		const insertedCompany = await new Company(companyName).save();
 		const insertedUser = await new User(
@@ -45,10 +44,10 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-	const email = req.body.email;
-	const password = req.body.password;
-	const expiresIn = 3600; // 3600 seconds = 1 hr
 	try {
+		const email = req.body.email;
+		const password = req.body.password;
+		const expiresIn = 3600; // 3600 seconds = 1 hr
 		const user = await User.findByEmail(email);
 		if (!user) {
 			const error = new Error(
