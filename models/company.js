@@ -25,6 +25,7 @@ module.exports = class Company {
 
 	static update = async (
 		id,
+		name = 'Company Name',
 		telephoneNumber = '',
 		country = '',
 		address1 = '',
@@ -43,6 +44,7 @@ module.exports = class Company {
 			let updatedCompany = await pool
 				.request()
 				.input('id', sql.Int, id)
+				.input('name', sql.NVarChar, name)
 				.input('telephoneNumber', sql.NVarChar, telephoneNumber)
 				.input('country', sql.NVarChar, country)
 				.input('address1', sql.NVarChar, address1)
@@ -60,6 +62,7 @@ module.exports = class Company {
 					`UPDATE Companies
 					 	SET 
 							telephoneNumber = @telephoneNumber,
+							name = @name,
 							country = @country,
 							address1 = @address1,
 							address2 = @address2,

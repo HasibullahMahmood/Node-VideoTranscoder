@@ -15,7 +15,7 @@ router.put(
 			.custom((email, { req }) => {
 				return User.findByEmail(email).then((user) => {
 					if (user) {
-						return Promise.reject('E-Mail address already exists!');
+						return Promise.reject('already exists!');
 					}
 				});
 			})

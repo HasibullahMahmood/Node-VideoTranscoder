@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator/check');
 const User = require('../models/user');
+const {
+	checkValidationError,
+	checkIsSuperUser,
+} = require('../util/utilityFunctions');
 
 exports.getData = (req, res, next) => {
 	const userId = req.userId;
@@ -19,15 +23,12 @@ exports.getData = (req, res, next) => {
 
 exports.getACompanyUsers = async (req, res, next) => {
 	try {
-		const currentUserId = req.userId;
-		const { companyId } = await User.findById(currentUserId);
+		checkIsSuperUser(req);
+		const companyId = req.companyId;
 		const users = await User.getUsersBasedOnCompanyId(companyId);
-		const usersWithoutCurrentUser = users.filter((user) => {
-			return user.id != currentUserId;
-		});
 		return res.json({
 			result: true,
-			users: usersWithoutCurrentUser,
+			users: users,
 		});
 	} catch (error) {
 		next(error);
@@ -36,14 +37,23 @@ exports.getACompanyUsers = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
 	try {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			const error = new Error('Validation failed.');
-			error.data = errors.array();
-			throw error;
-		}
+		checkIsSuperUser(req);
+		checkValidationError(req);
 
-		const { id, name, surname, email, password, phoneNumber } = req.body;
+		// extracting the data
+		let {
+			id,
+			name,
+			surname,
+			email,
+			password,
+			phoneNumber,
+			status,
+			isSuperUser,
+		} = req.body;
+		status = parseInt(status);
+		isSuperUser = parseInt(isSuperUser);
+
 		let updatedUser = null;
 		if (password) {
 			const hashedPass = await bcrypt.hash(password, 12);
@@ -53,7 +63,9 @@ exports.updateUser = async (req, res, next) => {
 				surname,
 				email,
 				hashedPass,
-				phoneNumber
+				phoneNumber,
+				status,
+				isSuperUser
 			);
 		} else {
 			updatedUser = await User.updateUserWithoutPassword(
@@ -61,7 +73,9 @@ exports.updateUser = async (req, res, next) => {
 				name,
 				surname,
 				email,
-				phoneNumber
+				phoneNumber,
+				status,
+				isSuperUser
 			);
 		}
 		if (updatedUser) {
@@ -81,25 +95,32 @@ exports.updateUser = async (req, res, next) => {
 
 exports.addUser = async (req, res, next) => {
 	try {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			const error = new Error('Validation failed.');
-			error.data = errors.array();
-			throw error;
-		}
+		checkIsSuperUser(req);
+		checkValidationError(req);
 
-		const { name, surname, email, password, phoneNumber } = req.body;
-		const currentUserId = req.userId;
-		const currentUser = await User.findById(currentUserId);
+		// extracting the data
+		let {
+			name,
+			surname,
+			email,
+			password,
+			phoneNumber,
+			status,
+			isSuperUser,
+		} = req.body;
+		status = parseInt(status);
+		isSuperUser = parseInt(isSuperUser);
 
 		const hashedPass = await bcrypt.hash(password, 12);
 		const user = new User(
 			name,
 			surname,
-			currentUser.companyId,
+			req.companyId,
 			phoneNumber,
 			email,
-			hashedPass
+			hashedPass,
+			status,
+			isSuperUser
 		);
 		const insertedUser = await user.save();
 		return res.json({
@@ -113,12 +134,8 @@ exports.addUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
 	try {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			const error = new Error('Validation failed.');
-			error.data = errors.array();
-			throw error;
-		}
+		checkIsSuperUser(req);
+		checkValidationError(req);
 
 		const userId = req.body.id;
 		await User.deleteUser(userId);

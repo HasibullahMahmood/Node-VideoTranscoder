@@ -1,97 +1,81 @@
-const { validationResult } = require('express-validator/check');
 const fs = require('fs');
 const path = require('path');
 
 const Company = require('../models/company');
 const User = require('../models/user');
+const {
+	checkIsSuperUser,
+	checkValidationError,
+} = require('../util/utilityFunctions');
 
-exports.getData = (req, res, next) => {
-	const userId = req.userId;
-
-	User.findById(userId)
-		.then((user) => {
-			const companyId = user.companyId;
-
-			return Company.findById(companyId);
-		})
-		.then((company) => {
-			return res.json({
-				result: true,
-				company,
-			});
-		})
-		.catch((err) => {
-			next(err);
+exports.getData = async (req, res, next) => {
+	try {
+		const companyId = req.companyId;
+		const company = await Company.findById(companyId);
+		return res.json({
+			result: true,
+			company,
 		});
+	} catch (error) {
+		next(error);
+	}
 };
 
-exports.update = (req, res, next) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		const error = new Error('Validation failed.');
-		error.data = errors.array();
-		throw error;
-	}
+exports.update = async (req, res, next) => {
+	try {
+		checkValidationError(req);
+		checkIsSuperUser(req);
+		const {
+			name,
+			telephoneNumber,
+			country,
+			address1,
+			address2,
+			title,
+			taxAdministration,
+			taxNumber,
+			province,
+			district,
+			email,
+		} = req.body;
 
-	const userId = req.userId;
-	let companyId = '';
-	const {
-		telephoneNumber,
-		country,
-		address1,
-		address2,
-		title,
-		taxAdministration,
-		taxNumber,
-		province,
-		district,
-		email,
-	} = req.body;
+		let logoRef = req.body.logoRef;
+		if (req.file) {
+			logoRef = 'companyLogo/' + req.file.filename;
+		}
 
-	let logoRef = req.body.logoRef;
-	if (req.file) {
-		logoRef = 'companyLogo/' + req.file.filename;
-	}
+		const companyOldData = await Company.findById(req.companyId);
+		if (
+			logoRef !== companyOldData.logoRef &&
+			companyOldData.logoRef != null
+		) {
+			clearImage(companyOldData.logoRef);
+		}
 
-	User.findById(userId)
-		.then((user) => {
-			companyId = user.companyId;
+		const updatedCompany = await Company.update(
+			req.companyId,
+			name,
+			telephoneNumber,
+			country,
+			address1,
+			address2,
+			title,
+			logoRef,
+			taxAdministration,
+			taxNumber,
+			province,
+			district,
+			email,
+			1
+		);
 
-			return Company.findById(companyId);
-		})
-		.then((companyOldData) => {
-			if (
-				logoRef !== companyOldData.logoRef &&
-				companyOldData.logoRef != null
-			) {
-				clearImage(companyOldData.logoRef);
-			}
-
-			return Company.update(
-				companyId,
-				telephoneNumber,
-				country,
-				address1,
-				address2,
-				title,
-				logoRef,
-				taxAdministration,
-				taxNumber,
-				province,
-				district,
-				email,
-				1
-			);
-		})
-		.then((updatedCompany) => {
-			return res.json({
-				result: true,
-				updatedCompany,
-			});
-		})
-		.catch((err) => {
-			next(err);
+		return res.json({
+			result: true,
+			updatedCompany,
 		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 const clearImage = (filePath) => {

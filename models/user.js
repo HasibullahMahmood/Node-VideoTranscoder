@@ -1,13 +1,24 @@
 const sql = require('mssql');
 
 module.exports = class User {
-	constructor(name, surname, companyId, phoneNumber, email, password) {
+	constructor(
+		name,
+		surname,
+		companyId,
+		phoneNumber,
+		email,
+		password,
+		status,
+		isSuperUser
+	) {
 		this.name = name;
 		this.surname = surname;
 		this.companyId = companyId;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 		this.password = password;
+		this.status = status;
+		this.isSuperUser = isSuperUser;
 	}
 
 	save = async () => {
@@ -21,9 +32,11 @@ module.exports = class User {
 				.input('phoneNumber', sql.NVarChar, this.phoneNumber)
 				.input('email', sql.NVarChar, this.email)
 				.input('password', sql.NVarChar, this.password)
+				.input('status', sql.Bit, this.status)
+				.input('isSuperUser', sql.Bit, this.isSuperUser)
 				.query(`INSERT INTO Users 
-                    (name, surname, companyId, phoneNumber, email, password) 
-					VALUES(@name, @surname, @companyId, @phoneNumber, @email, @password);
+                    (name, surname, companyId, phoneNumber, email, password, status, isSuperUser) 
+					VALUES(@name, @surname, @companyId, @phoneNumber, @email, @password, @status, @isSuperUser);
 					SELECT id FROM Users WHERE id = SCOPE_IDENTITY();`);
 			return insertedUser.recordset[0];
 		} catch (err) {
@@ -37,7 +50,7 @@ module.exports = class User {
 		try {
 			const pool = await sql.connect();
 			const users = await pool.request().query(
-				`SELECT id, name, surname, email, phoneNumber, companyId 
+				`SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
 					FROM Users`
 			);
 			return users.recordsets;
@@ -65,7 +78,7 @@ module.exports = class User {
 		try {
 			const pool = await sql.connect();
 			const user = await pool.request().input('id', sql.Int, id)
-				.query(`SELECT id, name, surname, email, phoneNumber, companyId 
+				.query(`SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
 						FROM Users 
 						WHERE Users.id = @id`);
 
@@ -81,7 +94,7 @@ module.exports = class User {
 			const users = await pool
 				.request()
 				.input('companyId', sql.Int, companyId)
-				.query(`SELECT id, name, surname, email, phoneNumber, companyId 
+				.query(`SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
 					FROM Users
 					WHERE Users.companyId = @companyId`);
 			return users.recordset;
@@ -96,7 +109,9 @@ module.exports = class User {
 		surname,
 		email,
 		password,
-		phoneNumber
+		phoneNumber,
+		status,
+		isSuperUser
 	) => {
 		try {
 			const pool = await sql.connect();
@@ -108,15 +123,18 @@ module.exports = class User {
 				.input('email', sql.NVarChar, email)
 				.input('password', sql.NVarChar, password)
 				.input('phoneNumber', sql.NVarChar, phoneNumber)
-				.query(`UPDATE Users 
+				.input('status', sql.Bit, status)
+				.input('isSuperUser', sql.Bit, isSuperUser).query(`UPDATE Users 
 					SET name=@name,
 						surname=@surname,
 						email=@email,
 						password=@password,
-						phoneNumber=@phoneNumber	
+						phoneNumber=@phoneNumber,
+						status=@status,
+						isSuperUser=@isSuperUser	
 					WHERE Users.id=@id;
 
-					SELECT id, name, surname, email, phoneNumber, companyId 
+					SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
 					FROM Users
 					WHERE Users.id=@id;`);
 			return updatedUser.recordset[0];
@@ -131,7 +149,9 @@ module.exports = class User {
 		name,
 		surname,
 		email,
-		phoneNumber
+		phoneNumber,
+		status,
+		isSuperUser
 	) => {
 		try {
 			const pool = await sql.connect();
@@ -142,14 +162,17 @@ module.exports = class User {
 				.input('surname', sql.NVarChar, surname)
 				.input('email', sql.NVarChar, email)
 				.input('phoneNumber', sql.NVarChar, phoneNumber)
-				.query(`UPDATE Users 
+				.input('status', sql.Bit, status)
+				.input('isSuperUser', sql.Bit, isSuperUser).query(`UPDATE Users 
 					SET name=@name,
 						surname=@surname,
 						email=@email,
-						phoneNumber=@phoneNumber	
+						phoneNumber=@phoneNumber,
+						status=@status,
+						isSuperUser=@isSuperUser	
 					WHERE Users.id=@id;
 					
-					SELECT id, name, surname, email, phoneNumber, companyId 
+					SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
 					FROM Users
 					WHERE Users.id=@id;`);
 			return updatedUser.recordset[0];
