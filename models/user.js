@@ -46,16 +46,19 @@ module.exports = class User {
 		}
 	};
 
-	static fetchAll = async () => {
+	static fetchAll = async (companyId) => {
 		try {
 			const pool = await sql.connect();
-			const users = await pool.request().query(
-				`SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
-					FROM Users`
-			);
-			return users.recordsets;
+			const users = await pool
+				.request()
+				.input('companyId', sql.Int, companyId)
+				.query(`SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
+					FROM Users
+					WHERE Users.companyId = @companyId`);
+			return users.recordset;
 		} catch (err) {
 			console.log(err);
+			throw err;
 		}
 	};
 
@@ -71,6 +74,7 @@ module.exports = class User {
 			return user.recordset[0];
 		} catch (err) {
 			console.log(err);
+			throw err;
 		}
 	};
 
@@ -85,21 +89,7 @@ module.exports = class User {
 			return user.recordset[0];
 		} catch (err) {
 			console.log(err);
-		}
-	};
-
-	static getUsersBasedOnCompanyId = async (companyId) => {
-		try {
-			const pool = await sql.connect();
-			const users = await pool
-				.request()
-				.input('companyId', sql.Int, companyId)
-				.query(`SELECT id, name, surname, email, phoneNumber, status, isSuperUser, companyId 
-					FROM Users
-					WHERE Users.companyId = @companyId`);
-			return users.recordset;
-		} catch (err) {
-			console.log(err);
+			throw err;
 		}
 	};
 
@@ -178,19 +168,24 @@ module.exports = class User {
 			return updatedUser.recordset[0];
 		} catch (error) {
 			console.log(error);
+			throw error;
 		}
 	};
 
-	static deleteUser = async (id) => {
+	static deleteUser = async (id, companyId) => {
 		try {
 			const pool = await sql.connect();
 			const obj = await pool
 				.request()
 				.input('id', sql.Int, id)
-				.query(`DELETE FROM Users WHERE Users.id = @id;`);
+				.input('companyId', sql.Int, companyId)
+				.query(
+					`DELETE FROM Users WHERE Users.id=@id AND Users.companyId=@companyId;`
+				);
 			return obj;
 		} catch (error) {
 			console.log(error);
+			throw error;
 		}
 	};
 };

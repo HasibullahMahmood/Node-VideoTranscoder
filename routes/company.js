@@ -3,7 +3,7 @@ const { body } = require('express-validator/check');
 const multer = require('multer'); // for uploading files
 
 const companyController = require('../controllers/company');
-const isAuth = require('../middleware/isAuth&Active');
+const isAuthActive = require('../middleware/isAuth&Active');
 const { fileFilter, fileStorage } = require('../util/fileMethods');
 
 const router = express.Router();
@@ -17,12 +17,12 @@ const uploadLogo = multer({
 // update company
 router.put(
 	'',
-	isAuth,
+	isAuthActive,
 	uploadLogo,
 	[body('name').trim().not().isEmpty()],
 	companyController.update
 );
 // get company Info
-router.get('', isAuth, companyController.getData);
+router.get('', isAuthActive, companyController.getData);
 
 module.exports = router;

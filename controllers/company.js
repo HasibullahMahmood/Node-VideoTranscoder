@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const Company = require('../models/company');
-const User = require('../models/user');
+
 const {
 	checkIsSuperUser,
 	checkValidationError,

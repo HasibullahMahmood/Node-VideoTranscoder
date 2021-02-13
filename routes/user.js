@@ -2,21 +2,21 @@ const express = require('express');
 const { body } = require('express-validator/check');
 
 const userController = require('../controllers/user');
-const isAuth = require('../middleware/isAuth&Active');
+const isAuthActive = require('../middleware/isAuth&Active');
 const User = require('../models/user');
 
 const router = express.Router();
 
 // /user/current-user
-router.get('/current-user', isAuth, userController.getData);
+router.get('/current-user', isAuthActive, userController.getData);
 
 // /user/company-users
-router.get('/company-users', isAuth, userController.getACompanyUsers);
+router.get('/company-users', isAuthActive, userController.getACompanyUsers);
 
 // /user/update-user
 router.put(
 	'/update-user',
-	isAuth,
+	isAuthActive,
 	[
 		body('email')
 			.isEmail()
@@ -31,7 +31,7 @@ router.put(
 // /user/add-user
 router.post(
 	'/add-user',
-	isAuth,
+	isAuthActive,
 	[
 		body('email')
 			.isEmail()
@@ -53,7 +53,7 @@ router.post(
 // /user/delete-user
 router.delete(
 	'/delete-user',
-	isAuth,
+	isAuthActive,
 	[body('id').trim().not().isEmpty()],
 	userController.deleteUser
 );

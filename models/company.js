@@ -96,6 +96,7 @@ module.exports = class Company {
 			return companies.recordsets;
 		} catch (err) {
 			console.log(err);
+			throw err;
 		}
 	};
 
@@ -110,6 +111,7 @@ module.exports = class Company {
 			return user.recordset[0];
 		} catch (err) {
 			console.log(err);
+			throw err;
 		}
 	};
 };

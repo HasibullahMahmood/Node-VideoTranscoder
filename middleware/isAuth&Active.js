@@ -2,42 +2,37 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 module.exports = async (req, res, next) => {
-	const authHeader = req.get('Authorization');
-	if (!authHeader) {
-		const error = new Error('Not authenticated.');
-		throw error;
-	}
-	const token = authHeader.split(' ')[1];
-
-	let decodedToken;
 	try {
-		decodedToken = jwt.verify(token, 'somesupersecretsecret');
-	} catch (err) {
-		throw err;
-	}
-	if (!decodedToken) {
-		const error = new Error('Not authenticated.');
-		throw error;
-	}
+		const authHeader = req.get('Authorization');
+		if (!authHeader) {
+			const error = new Error('Not authenticated.');
+			throw error;
+		}
+		const token = authHeader.split(' ')[1];
 
-	const userId = decodedToken.userId;
-	let isSuperUser;
-	let companyId;
+		let decodedToken = jwt.verify(token, 'somesupersecretsecret');
 
-	try {
+		if (!decodedToken) {
+			const error = new Error('Not authenticated.');
+			throw error;
+		}
+
+		const userId = decodedToken.userId;
 		const currentUser = await User.findById(userId);
-		isSuperUser = currentUser.isSuperUser;
-		companyId = currentUser.companyId;
+		const isSuperUser = currentUser.isSuperUser;
+		const companyId = currentUser.companyId;
 		const isActive = currentUser.status;
+
 		if (!isActive) {
 			const error = new Error('You are blocked!');
 			throw error;
 		}
+
+		req.userId = userId;
+		req.isSuperUser = isSuperUser;
+		req.companyId = companyId;
+		next();
 	} catch (error) {
-		throw error;
+		next(error);
 	}
-	req.userId = userId;
-	req.isSuperUser = isSuperUser;
-	req.companyId = companyId;
-	next();
 };

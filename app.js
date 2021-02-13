@@ -9,6 +9,8 @@ const db = require('./util/database');
 const authRoutes = require('./routes/auth');
 const companyRoutes = require('./routes/company');
 const userRoutes = require('./routes/user');
+const propertyRoutes = require('./routes/property');
+const propertyTypeRoutes = require('./routes/propertyType');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -23,6 +25,8 @@ app.use(
 app.use('/auth', authRoutes);
 app.use('/company', companyRoutes);
 app.use('/user', userRoutes);
+app.use('/property', propertyRoutes);
+app.use('/property-type', propertyTypeRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {

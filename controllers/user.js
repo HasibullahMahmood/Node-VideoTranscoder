@@ -25,7 +25,7 @@ exports.getACompanyUsers = async (req, res, next) => {
 	try {
 		checkIsSuperUser(req);
 		const companyId = req.companyId;
-		const users = await User.getUsersBasedOnCompanyId(companyId);
+		const users = await User.fetchAll(companyId);
 		return res.json({
 			result: true,
 			users: users,
@@ -138,7 +138,8 @@ exports.deleteUser = async (req, res, next) => {
 		checkValidationError(req);
 
 		const userId = req.body.id;
-		await User.deleteUser(userId);
+		const companyId = req.companyId;
+		await User.deleteUser(userId, companyId);
 		return res.json({
 			result: true,
 		});
