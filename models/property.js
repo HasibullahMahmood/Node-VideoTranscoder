@@ -58,7 +58,7 @@ module.exports = class Property {
 				.query(
 					`SELECT * FROM Properties WHERE Properties.companyId = @companyId;`
 				);
-			return properties.recordsets;
+			return properties.recordset;
 		} catch (err) {
 			console.log(err);
 			throw err;

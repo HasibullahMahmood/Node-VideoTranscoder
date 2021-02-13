@@ -84,6 +84,7 @@ exports.deleteProperty = async (req, res, next) => {
 		checkValidationError(req);
 		const companyId = req.companyId;
 		const propertyId = req.body.id;
+
 		await Property.deleteProperty(propertyId, companyId);
 		return res.json({
 			result: true,
