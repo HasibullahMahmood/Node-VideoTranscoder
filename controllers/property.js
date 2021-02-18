@@ -15,8 +15,10 @@ exports.addProperty = async (req, res, next) => {
 			bedNumber,
 			bathroomNumber,
 			hasSwimmingPool,
+			status,
 		} = await req.body;
 		hasSwimmingPool = parseInt(hasSwimmingPool);
+		status = parseInt(status);
 		const companyId = req.companyId;
 		let property = new Property(
 			name,
@@ -27,6 +29,7 @@ exports.addProperty = async (req, res, next) => {
 			bedNumber,
 			bathroomNumber,
 			hasSwimmingPool,
+			status,
 			companyId
 		);
 		propertyId = await property.save();
@@ -53,10 +56,12 @@ exports.updateProperty = async (req, res, next) => {
 			bedNumber,
 			bathroomNumber,
 			hasSwimmingPool,
+			status,
 		} = req.body;
 
 		const companyId = req.companyId;
 		hasSwimmingPool = parseInt(hasSwimmingPool);
+		status = parseInt(status);
 		const updatedProperty = await Property.update(
 			id,
 			name,
@@ -67,6 +72,7 @@ exports.updateProperty = async (req, res, next) => {
 			bedNumber,
 			bathroomNumber,
 			hasSwimmingPool,
+			status,
 			companyId
 		);
 

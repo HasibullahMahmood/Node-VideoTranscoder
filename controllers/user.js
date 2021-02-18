@@ -6,19 +6,17 @@ const {
 	checkIsSuperUser,
 } = require('../util/utilityFunctions');
 
-exports.getData = (req, res, next) => {
-	const userId = req.userId;
-
-	User.findById(userId)
-		.then((user) => {
-			return res.json({
-				result: true,
-				user,
-			});
-		})
-		.catch((err) => {
-			next(err);
+exports.getData = async (req, res, next) => {
+	try {
+		const userId = req.userId;
+		const user = await User.findById(userId);
+		return res.json({
+			result: true,
+			user,
 		});
+	} catch (error) {
+		next(error);
+	}
 };
 
 exports.getACompanyUsers = async (req, res, next) => {

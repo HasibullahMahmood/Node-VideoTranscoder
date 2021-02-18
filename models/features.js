@@ -1,13 +1,13 @@
 const sql = require('mssql');
 
-module.exports = class PropertyType {
+module.exports = class Features {
 	static fetchAll = async () => {
 		try {
 			const pool = await sql.connect();
-			const propertyTypes = await pool
+			const features = await pool
 				.request()
-				.query(`SELECT * FROM PropertyTypes;`);
-			return propertyTypes.recordset;
+				.query(`SELECT * FROM Features;`);
+			return features.recordset;
 		} catch (err) {
 			console.log(err);
 			throw err;

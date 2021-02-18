@@ -10,7 +10,9 @@ const authRoutes = require('./routes/auth');
 const companyRoutes = require('./routes/company');
 const userRoutes = require('./routes/user');
 const propertyRoutes = require('./routes/property');
-const propertyTypeRoutes = require('./routes/propertyType');
+const propertyTypesRoutes = require('./routes/propertyTypes');
+const featuresRoutes = require('./routes/features');
+const property_featuresRoutes = require('./routes/property_features');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -26,7 +28,9 @@ app.use('/auth', authRoutes);
 app.use('/company', companyRoutes);
 app.use('/user', userRoutes);
 app.use('/property', propertyRoutes);
-app.use('/property-type', propertyTypeRoutes);
+app.use('/property-types', propertyTypesRoutes);
+app.use('/features', featuresRoutes);
+app.use('/property-features', property_featuresRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {

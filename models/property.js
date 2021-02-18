@@ -10,6 +10,7 @@ module.exports = class Property {
 		bedNumber,
 		bathroomNumber,
 		hasSwimmingPool,
+		status,
 		companyId
 	) {
 		this.name = name;
@@ -20,6 +21,7 @@ module.exports = class Property {
 		this.bedNumber = bedNumber;
 		this.bathroomNumber = bathroomNumber;
 		this.hasSwimmingPool = hasSwimmingPool;
+		this.status = status;
 		this.companyId = companyId;
 	}
 
@@ -36,10 +38,11 @@ module.exports = class Property {
 				.input('bedNumber', sql.Int, this.bedNumber)
 				.input('bathroomNumber', sql.Int, this.bathroomNumber)
 				.input('hasSwimmingPool', sql.Bit, this.hasSwimmingPool)
+				.input('status', sql.Bit, this.status)
 				.input('companyId', sql.Int, this.companyId)
 				.query(`INSERT INTO Properties 
-                    (name, shortName, propertyTypeId, capacity, bedroomNumber, bedNumber, bathroomNumber, hasSwimmingPool, companyId) 
-					VALUES(@name, @shortName, @propertyTypeId, @capacity, @bedroomNumber, @bedNumber, @bathroomNumber, @hasSwimmingPool, @companyId);
+                    (name, shortName, propertyTypeId, capacity, bedroomNumber, bedNumber, bathroomNumber, hasSwimmingPool,status, companyId) 
+					VALUES(@name, @shortName, @propertyTypeId, @capacity, @bedroomNumber, @bedNumber, @bathroomNumber, @hasSwimmingPool, @status, @companyId);
 					SELECT id FROM Properties WHERE id = SCOPE_IDENTITY();`);
 			return insertedUser.recordset[0];
 		} catch (err) {
@@ -75,6 +78,7 @@ module.exports = class Property {
 		bedNumber,
 		bathroomNumber,
 		hasSwimmingPool,
+		status,
 		companyId
 	) => {
 		try {
@@ -90,6 +94,7 @@ module.exports = class Property {
 				.input('bedNumber', sql.Int, bedNumber)
 				.input('bathroomNumber', sql.Int, bathroomNumber)
 				.input('hasSwimmingPool', sql.Bit, hasSwimmingPool)
+				.input('status', sql.Bit, status)
 				.input('companyId', sql.Int, companyId)
 				.query(`UPDATE Properties 
 					SET name=@name,
@@ -100,6 +105,7 @@ module.exports = class Property {
                         bedNumber=@bedNumber,
                         bathroomNumber=@bathroomNumber,
                         hasSwimmingPool=@hasSwimmingPool,
+                        status=@status,
                         companyId=@companyId
 						WHERE Properties.id=@id;
 

@@ -1,11 +1,11 @@
 const express = require('express');
 const { body } = require('express-validator/check');
 
-const propertyTypeController = require('../controllers/propertyType');
+const propertyTypesController = require('../controllers/propertyTypes');
 
 const router = express.Router();
 
-// /property
-router.get('', propertyTypeController.getPropertyTypes);
+// /property-types
+router.get('', propertyTypesController.getPropertyTypes);
 
 module.exports = router;

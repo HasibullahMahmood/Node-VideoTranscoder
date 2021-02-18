@@ -1,8 +1,4 @@
-const PropertyType = require('../models/propertyType');
-const {
-	checkIsSuperUser,
-	checkValidationError,
-} = require('../util/utilityFunctions');
+const PropertyType = require('../models/propertyTypes');
 
 exports.getPropertyTypes = async (req, res, next) => {
 	try {
