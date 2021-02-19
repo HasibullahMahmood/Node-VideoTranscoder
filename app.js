@@ -13,6 +13,8 @@ const propertyRoutes = require('./routes/property');
 const propertyTypesRoutes = require('./routes/propertyTypes');
 const featuresRoutes = require('./routes/features');
 const property_featuresRoutes = require('./routes/property_features');
+const includedInPriceFeaturesRoutes = require('./routes/includedInPriceFeatures');
+const property_includedInPriceFeaturesRoutes = require('./routes/property_includedInPriceFeatures');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -30,7 +32,12 @@ app.use('/user', userRoutes);
 app.use('/property', propertyRoutes);
 app.use('/property-types', propertyTypesRoutes);
 app.use('/features', featuresRoutes);
-app.use('/property-features', property_featuresRoutes);
+app.use('/property_features', property_featuresRoutes);
+app.use('/included-in-price-features', includedInPriceFeaturesRoutes);
+app.use(
+	'/property_included-in-price-features',
+	property_includedInPriceFeaturesRoutes
+);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {

@@ -1,28 +1,28 @@
 const sql = require('mssql');
 
 module.exports = class Property_Features {
-	static getProperty_Features = async (propertyId) => {
+	static getProperty_IncludedInPriceFeatures = async (propertyId) => {
 		try {
 			const pool = await sql.connect();
-			const propertyFeatures = await pool
+			const result = await pool
 				.request()
 				.input('propertyId', sql.Int, propertyId)
 				.query(
-					`SELECT * FROM Property_Features WHERE Property_Features.propertyId=@propertyId;`
+					`SELECT * FROM Property_IncludedInPriceFeatures WHERE propertyId=@propertyId;`
 				);
-			return propertyFeatures.recordset;
+			return result.recordset;
 		} catch (error) {
 			console.log(error);
 			throw error;
 		}
 	};
 
-	static addProperty_Features = async (newObjects) => {
+	static addProperty_IncludedInPriceFeatures = async (newObjects) => {
 		try {
-			let queryStatement = `INSERT INTO Property_Features (propertyId, featureId) VALUES `;
+			let queryStatement = `INSERT INTO Property_IncludedInPriceFeatures (propertyId, includedInPriceFeatureId) VALUES `;
 
 			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.propertyId}, ${obj.featureId}),`;
+				queryStatement += `(${obj.propertyId}, ${obj.includedInPriceFeatureId}),`;
 			});
 			queryStatement = queryStatement.slice(0, -1);
 
@@ -40,12 +40,12 @@ module.exports = class Property_Features {
 			ids = ids.toString();
 			let queryStatement = '';
 			if (ids) {
-				queryStatement = `DELETE FROM Property_Features 
-									WHERE Property_Features.id NOT IN (${ids}) 
-									AND Property_Features.propertyId=${propertyId};`;
+				queryStatement = `DELETE FROM Property_IncludedInPriceFeatures 
+									WHERE Property_IncludedInPriceFeatures.id NOT IN (${ids}) 
+									AND Property_IncludedInPriceFeatures.propertyId=${propertyId};`;
 			} else {
-				queryStatement = `DELETE FROM Property_Features 
-									WHERE Property_Features.propertyId=${propertyId};`;
+				queryStatement = `DELETE FROM Property_IncludedInPriceFeatures 
+									WHERE Property_IncludedInPriceFeatures.propertyId=${propertyId};`;
 			}
 
 			const pool = await sql.connect();

@@ -6,7 +6,7 @@ exports.getPropertyFeatures = async (req, res, next) => {
 		checkValidationError(req);
 
 		const { propertyId } = req.query;
-		const propertyFeatures = await Property_Features.getPropertyFeatures(
+		const propertyFeatures = await Property_Features.getProperty_Features(
 			propertyId
 		);
 		return res.json({
@@ -44,7 +44,7 @@ exports.addDeleteFeatures = async (req, res, next) => {
 
 		// add new added features to the db
 		if (newAddedFeatures.length > 0) {
-			await Property_Features.addPropertyFeatures(newAddedFeatures);
+			await Property_Features.addProperty_Features(newAddedFeatures);
 		}
 
 		return res.json({
