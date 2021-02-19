@@ -1,14 +1,14 @@
 const sql = require('mssql');
 
-module.exports = class Property_IncludedInPriceFeatures {
-	static getProperty_IncludedInPriceFeatures = async (propertyId) => {
+module.exports = class Property_NotIncludedInPriceFeatures {
+	static getProperty_NotIncludedInPriceFeatures = async (propertyId) => {
 		try {
 			const pool = await sql.connect();
 			const result = await pool
 				.request()
 				.input('propertyId', sql.Int, propertyId)
 				.query(
-					`SELECT * FROM Property_IncludedInPriceFeatures WHERE propertyId=@propertyId;`
+					`SELECT * FROM Property_NotIncludedInPriceFeatures WHERE propertyId=@propertyId;`
 				);
 			return result.recordset;
 		} catch (error) {
@@ -17,12 +17,12 @@ module.exports = class Property_IncludedInPriceFeatures {
 		}
 	};
 
-	static addProperty_IncludedInPriceFeatures = async (newObjects) => {
+	static addProperty_NotIncludedInPriceFeatures = async (newObjects) => {
 		try {
-			let queryStatement = `INSERT INTO Property_IncludedInPriceFeatures (propertyId, includedInPriceFeatureId) VALUES `;
+			let queryStatement = `INSERT INTO Property_NotIncludedInPriceFeatures (propertyId, notIncludedInPriceFeatureId) VALUES `;
 
 			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.propertyId}, ${obj.includedInPriceFeatureId}),`;
+				queryStatement += `(${obj.propertyId}, ${obj.notIncludedInPriceFeatureId}),`;
 			});
 			queryStatement = queryStatement.slice(0, -1);
 
@@ -40,12 +40,12 @@ module.exports = class Property_IncludedInPriceFeatures {
 			ids = ids.toString();
 			let queryStatement = '';
 			if (ids) {
-				queryStatement = `DELETE FROM Property_IncludedInPriceFeatures 
-									WHERE Property_IncludedInPriceFeatures.id NOT IN (${ids}) 
-									AND Property_IncludedInPriceFeatures.propertyId=${propertyId};`;
+				queryStatement = `DELETE FROM Property_NotIncludedInPriceFeatures 
+									WHERE Property_NotIncludedInPriceFeatures.id NOT IN (${ids}) 
+									AND Property_NotIncludedInPriceFeatures.propertyId=${propertyId};`;
 			} else {
-				queryStatement = `DELETE FROM Property_IncludedInPriceFeatures 
-									WHERE Property_IncludedInPriceFeatures.propertyId=${propertyId};`;
+				queryStatement = `DELETE FROM Property_NotIncludedInPriceFeatures 
+									WHERE Property_NotIncludedInPriceFeatures.propertyId=${propertyId};`;
 			}
 
 			const pool = await sql.connect();

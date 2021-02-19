@@ -15,6 +15,8 @@ const featuresRoutes = require('./routes/features');
 const property_featuresRoutes = require('./routes/property_features');
 const includedInPriceFeaturesRoutes = require('./routes/includedInPriceFeatures');
 const property_includedInPriceFeaturesRoutes = require('./routes/property_includedInPriceFeatures');
+const notIncludedInPriceFeaturesRoutes = require('./routes/notIncludedInPriceFeatures');
+const property_notIncludedInPriceFeaturesRoutes = require('./routes/property_notIncludedInPriceFeatures');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -37,6 +39,11 @@ app.use('/included-in-price-features', includedInPriceFeaturesRoutes);
 app.use(
 	'/property_included-in-price-features',
 	property_includedInPriceFeaturesRoutes
+);
+app.use('/not-included-in-price-features', notIncludedInPriceFeaturesRoutes);
+app.use(
+	'/property_not-included-in-price-features',
+	property_notIncludedInPriceFeaturesRoutes
 );
 
 // CATCH THE ERROR
