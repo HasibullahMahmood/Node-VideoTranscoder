@@ -20,9 +20,12 @@ module.exports = class Property_Features {
 	static addPropertyFeatures = async (newObjects) => {
 		try {
 			let queryStatement = `INSERT INTO Property_Features (propertyId, featureId) VALUES `;
+
 			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.propertyId}, ${obj.featureId})`;
+				queryStatement += `(${obj.propertyId}, ${obj.featureId}),`;
 			});
+			queryStatement = queryStatement.slice(0, -1);
+
 			const pool = await sql.connect();
 			const result = await pool.request().query(queryStatement);
 			return result;
@@ -35,9 +38,15 @@ module.exports = class Property_Features {
 	static deletePFExceptThese = async (ids, propertyId) => {
 		try {
 			ids = ids.toString();
-			let queryStatement = `DELETE FROM Property_Features 
+			let queryStatement = '';
+			if (ids) {
+				queryStatement = `DELETE FROM Property_Features 
 									WHERE Property_Features.id NOT IN (${ids}) 
 									AND Property_Features.propertyId=${propertyId};`;
+			} else {
+				queryStatement = `DELETE FROM Property_Features 
+									WHERE Property_Features.propertyId=${propertyId};`;
+			}
 
 			const pool = await sql.connect();
 			const result = await pool.request().query(queryStatement);

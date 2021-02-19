@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator/check');
+const { body, query } = require('express-validator/check');
 
 const property_featuresController = require('../controllers/property_features');
 const isAuthActive = require('../middleware/isAuth&Active');
@@ -10,7 +10,7 @@ const router = express.Router();
 router.get(
 	'',
 	isAuthActive,
-	[body('propertyId').exists()],
+	[query('propertyId').exists()],
 	property_featuresController.getPropertyFeatures
 );
 
