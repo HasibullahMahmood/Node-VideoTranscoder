@@ -4,13 +4,13 @@ const multer = require('multer'); // for uploading files
 
 const companyController = require('../controllers/company');
 const isAuthActive = require('../middleware/isAuth&Active');
-const { fileFilter, fileStorage } = require('../util/fileMethods');
+const { fileFilter, getFileStorage } = require('../util/fileMethods');
 
 const router = express.Router();
 
 // SAVE THE IMAGES
 const uploadLogo = multer({
-	storage: fileStorage,
+	storage: getFileStorage('companyLogo'),
 	fileFilter: fileFilter,
 }).single('logoRef');
 

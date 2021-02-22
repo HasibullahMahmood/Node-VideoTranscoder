@@ -19,6 +19,7 @@ const notIncludedInPriceFeaturesRoutes = require('./routes/notIncludedInPriceFea
 const property_notIncludedInPriceFeaturesRoutes = require('./routes/property_notIncludedInPriceFeatures');
 const rulesRoutes = require('./routes/rules');
 const property_rulesRoutes = require('./routes/property_rules');
+const propertyPhotosRoutes = require('./routes/photo');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -27,6 +28,11 @@ app.use(cors());
 app.use(
 	'/companyLogo',
 	express.static(path.join(__dirname, 'public', 'companyLogo'))
+);
+
+app.use(
+	'/propertyPhotos',
+	express.static(path.join(__dirname, 'public', 'propertyPhotos'))
 );
 
 // ROUTES HERE
@@ -49,6 +55,7 @@ app.use(
 );
 app.use('/rules', rulesRoutes);
 app.use('/property_rules', property_rulesRoutes);
+app.use('/property-photo', propertyPhotosRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {

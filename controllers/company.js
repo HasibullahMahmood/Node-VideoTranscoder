@@ -1,7 +1,5 @@
-const fs = require('fs');
-const path = require('path');
-
 const Company = require('../models/company');
+const { clearImage } = require('../util/fileMethods');
 
 const {
 	checkIsSuperUser,
@@ -75,12 +73,5 @@ exports.update = async (req, res, next) => {
 		});
 	} catch (error) {
 		next(error);
-	}
-};
-
-const clearImage = (filePath) => {
-	if (filePath != null) {
-		filePath = path.join(__dirname, '..', 'public', filePath);
-		fs.unlink(filePath, (err) => {});
 	}
 };
