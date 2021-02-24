@@ -1,4 +1,4 @@
-const Photo = require('../models/photo');
+const PropertyPhotos = require('../models/propertyPhotos');
 const { checkValidationError } = require('../util/utilityFunctions');
 const { clearImage } = require('../util/fileMethods');
 
@@ -7,7 +7,7 @@ exports.getPhotos = async (req, res, next) => {
 		checkValidationError(req);
 
 		const { propertyId } = req.query;
-		const photos = await Photo.fetchAll(propertyId);
+		const photos = await PropertyPhotos.fetchAll(propertyId);
 		return res.json({
 			result: true,
 			photos,
@@ -22,7 +22,7 @@ exports.addPhoto = async (req, res, next) => {
 		checkValidationError(req);
 		const { propertyId } = req.body;
 		const photoRef = 'propertyPhotos/' + req.file.filename;
-		const photo = await new Photo(photoRef, propertyId).save();
+		const photo = await new PropertyPhotos(photoRef, propertyId).save();
 		return res.json({
 			result: true,
 			photo,
@@ -36,10 +36,10 @@ exports.deletePhoto = async (req, res, next) => {
 	try {
 		checkValidationError(req);
 		const { photoId } = req.body;
-		const photoData = await Photo.findById(photoId);
+		const photoData = await PropertyPhotos.findById(photoId);
 		const photoRef = photoData.photoRef;
 
-		const photo = await Photo.delete(photoId);
+		const photo = await PropertyPhotos.delete(photoId);
 		clearImage(photoRef);
 
 		return res.json({

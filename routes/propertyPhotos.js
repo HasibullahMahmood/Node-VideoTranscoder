@@ -2,7 +2,7 @@ const express = require('express');
 const { body, query } = require('express-validator/check');
 const multer = require('multer'); // for uploading files
 
-const photoController = require('../controllers/photo');
+const photoController = require('../controllers/propertyPhotos');
 const isAuthActive = require('../middleware/isAuth&Active');
 const { fileFilter, getFileStorage } = require('../util/fileMethods');
 
@@ -14,7 +14,7 @@ const uploadPhoto = multer({
 	fileFilter: fileFilter,
 }).single('propertyPhoto');
 
-//    /property-photo
+//    /property-photos
 router.get(
 	'',
 	isAuthActive,
@@ -22,7 +22,7 @@ router.get(
 	photoController.getPhotos
 );
 
-//    /property-photo
+//    /property-photos
 router.post(
 	'',
 	isAuthActive,
@@ -31,7 +31,7 @@ router.post(
 	photoController.addPhoto
 );
 
-//    /property-photo
+//    /property-photos
 router.delete(
 	'',
 	isAuthActive,
