@@ -1,8 +1,5 @@
 const Property = require('../models/property');
-const {
-	checkIsSuperUser,
-	checkValidationError,
-} = require('../util/utilityFunctions');
+const { checkValidationError } = require('../util/utilityFunctions');
 
 exports.addProperty = async (req, res, next) => {
 	try {
@@ -16,6 +13,11 @@ exports.addProperty = async (req, res, next) => {
 			bathroomNumber,
 			hasSwimmingPool,
 			status,
+			countryId,
+			provinceId,
+			districtId,
+			address,
+			description,
 		} = await req.body;
 		hasSwimmingPool = parseInt(hasSwimmingPool);
 		status = parseInt(status);
@@ -30,7 +32,12 @@ exports.addProperty = async (req, res, next) => {
 			bathroomNumber,
 			hasSwimmingPool,
 			status,
-			companyId
+			companyId,
+			countryId,
+			provinceId,
+			districtId,
+			address,
+			description
 		);
 		propertyId = await property.save();
 
@@ -57,6 +64,11 @@ exports.updateProperty = async (req, res, next) => {
 			bathroomNumber,
 			hasSwimmingPool,
 			status,
+			countryId,
+			provinceId,
+			districtId,
+			address,
+			description,
 		} = req.body;
 
 		const companyId = req.companyId;
@@ -73,7 +85,12 @@ exports.updateProperty = async (req, res, next) => {
 			bathroomNumber,
 			hasSwimmingPool,
 			status,
-			companyId
+			companyId,
+			countryId,
+			provinceId,
+			districtId,
+			address,
+			description
 		);
 
 		return res.json({

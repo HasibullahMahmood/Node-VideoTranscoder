@@ -11,7 +11,12 @@ module.exports = class Property {
 		bathroomNumber,
 		hasSwimmingPool,
 		status,
-		companyId
+		companyId,
+		countryId,
+		provinceId,
+		districtId,
+		address,
+		description
 	) {
 		this.name = name;
 		this.shortName = shortName;
@@ -23,6 +28,11 @@ module.exports = class Property {
 		this.hasSwimmingPool = hasSwimmingPool;
 		this.status = status;
 		this.companyId = companyId;
+		this.countryId = countryId;
+		this.provinceId = provinceId;
+		this.districtId = districtId;
+		this.address = address;
+		this.description = description;
 	}
 
 	save = async () => {
@@ -40,9 +50,18 @@ module.exports = class Property {
 				.input('hasSwimmingPool', sql.Bit, this.hasSwimmingPool)
 				.input('status', sql.Bit, this.status)
 				.input('companyId', sql.Int, this.companyId)
+				.input('countryId', sql.Int, this.countryId)
+				.input('provinceId', sql.Int, this.provinceId)
+				.input('districtId', sql.Int, this.districtId)
+				.input('address', sql.NVarChar, this.address)
+				.input('description', sql.NVarChar, this.description)
 				.query(`INSERT INTO Properties 
-                    (name, shortName, propertyTypeId, capacity, bedroomNumber, bedNumber, bathroomNumber, hasSwimmingPool,status, companyId) 
-					VALUES(@name, @shortName, @propertyTypeId, @capacity, @bedroomNumber, @bedNumber, @bathroomNumber, @hasSwimmingPool, @status, @companyId);
+                    (name, shortName, propertyTypeId, capacity, bedroomNumber,
+						 bedNumber, bathroomNumber, hasSwimmingPool,status, companyId,
+						 countryId, provinceId, districtId, address, description) 
+					VALUES(@name, @shortName, @propertyTypeId, @capacity, @bedroomNumber, 
+						@bedNumber, @bathroomNumber, @hasSwimmingPool, @status, @companyId,
+						@countryId, @provinceId, @districtId, @address, @description);
 					SELECT id FROM Properties WHERE id = SCOPE_IDENTITY();`);
 			return insertedUser.recordset[0];
 		} catch (err) {
@@ -79,7 +98,12 @@ module.exports = class Property {
 		bathroomNumber,
 		hasSwimmingPool,
 		status,
-		companyId
+		companyId,
+		countryId,
+		provinceId,
+		districtId,
+		address,
+		description
 	) => {
 		try {
 			const pool = await sql.connect();
@@ -96,6 +120,11 @@ module.exports = class Property {
 				.input('hasSwimmingPool', sql.Bit, hasSwimmingPool)
 				.input('status', sql.Bit, status)
 				.input('companyId', sql.Int, companyId)
+				.input('countryId', sql.Int, countryId)
+				.input('provinceId', sql.Int, provinceId)
+				.input('districtId', sql.Int, districtId)
+				.input('address', sql.NVarChar, address)
+				.input('description', sql.NVarChar, description)
 				.query(`UPDATE Properties 
 					SET name=@name,
                         shortName=@shortName,
@@ -106,7 +135,13 @@ module.exports = class Property {
                         bathroomNumber=@bathroomNumber,
                         hasSwimmingPool=@hasSwimmingPool,
                         status=@status,
-                        companyId=@companyId
+                        companyId=@companyId,
+                        countryId=@countryId,
+                        provinceId=@provinceId,
+                        districtId=@districtId,
+                        address=@address,
+                        description=@description
+						
 						WHERE Properties.id=@id;
 
 					SELECT *
