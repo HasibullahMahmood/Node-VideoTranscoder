@@ -25,6 +25,8 @@ const provincesRoutes = require('./routes/provinces');
 const districtsRoutes = require('./routes/districts');
 const categoriesRoutes = require('./routes/categories');
 const property_categoriesRoutes = require('./routes/property_categories');
+const placesRoutes = require('./routes/places');
+const property_placesRoutes = require('./routes/property_places');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -66,6 +68,8 @@ app.use('/provinces', provincesRoutes);
 app.use('/districts', districtsRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/property_categories', property_categoriesRoutes);
+app.use('/places', placesRoutes);
+app.use('/property_places', property_placesRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {
