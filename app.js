@@ -23,6 +23,8 @@ const propertyPhotosRoutes = require('./routes/propertyPhotos');
 const countriesRoutes = require('./routes/countries');
 const provincesRoutes = require('./routes/provinces');
 const districtsRoutes = require('./routes/districts');
+const categoriesRoutes = require('./routes/categories');
+const property_categoriesRoutes = require('./routes/property_categories');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -62,6 +64,8 @@ app.use('/property-photos', propertyPhotosRoutes);
 app.use('/countries', countriesRoutes);
 app.use('/provinces', provincesRoutes);
 app.use('/districts', districtsRoutes);
+app.use('/categories', categoriesRoutes);
+app.use('/property_categories', property_categoriesRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {
