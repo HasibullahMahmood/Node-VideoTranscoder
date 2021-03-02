@@ -26,6 +26,7 @@ exports.signup = async (req, res, next) => {
 		} = req.body;
 		const hashedPass = await bcrypt.hash(password, 12);
 		const insertedCompany = await new Company(companyName).save();
+
 		const insertedUser = await new User(
 			name,
 			surname,

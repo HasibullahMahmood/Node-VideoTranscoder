@@ -26,14 +26,14 @@ exports.update = async (req, res, next) => {
 		const {
 			name,
 			telephoneNumber,
-			country,
+			countryId,
 			address1,
 			address2,
 			title,
 			taxAdministration,
 			taxNumber,
-			province,
-			district,
+			provinceId,
+			districtId,
 			email,
 		} = req.body;
 
@@ -50,22 +50,24 @@ exports.update = async (req, res, next) => {
 			clearImage(companyOldData.logoRef);
 		}
 
-		const updatedCompany = await Company.update(
+		await Company.update(
 			req.companyId,
 			name,
 			telephoneNumber,
-			country,
+			countryId,
 			address1,
 			address2,
 			title,
 			logoRef,
 			taxAdministration,
 			taxNumber,
-			province,
-			district,
+			provinceId,
+			districtId,
 			email,
 			1
 		);
+
+		const updatedCompany = await Company.findById(req.companyId);
 
 		return res.json({
 			result: true,

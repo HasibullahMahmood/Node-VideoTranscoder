@@ -8,14 +8,14 @@ module.exports = class Company {
 	save = async () => {
 		try {
 			let pool = await sql.connect();
-			let insertedCompany = await pool
+			let insertedCompanyId = await pool
 				.request()
 				.input('name', sql.NVarChar, this.name)
 				.query(
 					`INSERT INTO Companies (name, state) VALUES(@name, 1); 
-					 SELECT * FROM Companies WHERE id = SCOPE_IDENTITY();`
+					 SELECT SCOPE_IDENTITY();`
 				);
-			return insertedCompany.recordset[0];
+			return { id: Object.values(insertedCompanyId.recordset[0])[0] };
 		} catch (err) {
 			console.log('Error in saving the company: ');
 			console.log(err);
@@ -27,15 +27,15 @@ module.exports = class Company {
 		id,
 		name = 'Company Name',
 		telephoneNumber = '',
-		country = '',
+		countryId = '',
 		address1 = '',
 		address2 = '',
 		title = '',
 		logoRef = '',
 		taxAdministration = '',
 		taxNumber = '',
-		province = '',
-		district = '',
+		provinceId = '',
+		districtId = '',
 		email = '',
 		state = ''
 	) => {
@@ -46,15 +46,15 @@ module.exports = class Company {
 				.input('id', sql.Int, id)
 				.input('name', sql.NVarChar, name)
 				.input('telephoneNumber', sql.NVarChar, telephoneNumber)
-				.input('country', sql.NVarChar, country)
+				.input('countryId', sql.Int, countryId)
 				.input('address1', sql.NVarChar, address1)
 				.input('address2', sql.NVarChar, address2)
 				.input('title', sql.NVarChar, title)
 				.input('logoRef', sql.NVarChar, logoRef)
 				.input('taxAdministration', sql.NVarChar, taxAdministration)
 				.input('taxNumber', sql.NVarChar, taxNumber)
-				.input('province', sql.NVarChar, province)
-				.input('district', sql.NVarChar, district)
+				.input('provinceId', sql.Int, provinceId)
+				.input('districtId', sql.Int, districtId)
 				.input('email', sql.NVarChar, email)
 				.input('state', sql.Bit, state)
 
@@ -63,23 +63,21 @@ module.exports = class Company {
 					 	SET 
 							telephoneNumber = @telephoneNumber,
 							name = @name,
-							country = @country,
+							countryId = @countryId,
 							address1 = @address1,
 							address2 = @address2,
 							title = @title,
 							logoRef = @logoRef,
 							taxAdministration = @taxAdministration,
 							taxNumber = @taxNumber,
-							province = @province,
-							district = @district,
+							provinceId = @provinceId,
+							districtId = @districtId,
 							email = @email,
 							state = @state
 						WHERE Companies.id=@id;
-					
-					SELECT * FROM Companies WHERE Companies.id=@id;
 					`
 				);
-			return updatedCompany.recordset[0];
+			return updatedCompany.recordset;
 		} catch (err) {
 			console.log('Error in updating the company: ');
 			console.log(err);
@@ -103,10 +101,15 @@ module.exports = class Company {
 	static findById = async (id) => {
 		try {
 			let pool = await sql.connect();
-			let user = await pool
-				.request()
-				.input('id', sql.Int, id)
-				.query(`SELECT * FROM Companies WHERE Companies.id = @id`);
+			let user = await pool.request().input('id', sql.Int, id)
+				.query(`SELECT Companies.*,
+							Countries.name as countryName, Provinces.name as provinceName,
+							Districts.name as districtName
+							FROM Companies 
+							LEFT JOIN Countries on Companies.countryId=Countries.id
+							LEFT JOIN Provinces on Companies.provinceId=Provinces.id
+							LEFT JOIN Districts on Companies.districtId=Districts.id
+							WHERE Companies.id = @id;`);
 
 			return user.recordset[0];
 		} catch (err) {
