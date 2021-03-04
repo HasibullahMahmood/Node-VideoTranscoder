@@ -20,8 +20,26 @@ const checkValidationError = (req) => {
 	}
 };
 
+const getCurrentDate = () => {
+	let date = new Date();
+	return (currentDate =
+		date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay());
+};
+
+const getCurrentTime = () => {
+	let date = new Date();
+	return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+};
+
+const getCurrentDateTime = () => {
+	return getCurrentDate() + ' ' + getCurrentTime();
+};
+
 module.exports = {
 	capitalizeFirstLetter,
 	checkIsSuperUser,
 	checkValidationError,
+	getCurrentDate,
+	getCurrentTime,
+	getCurrentDateTime,
 };
