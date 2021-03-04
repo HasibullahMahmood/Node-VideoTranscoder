@@ -1,8 +1,8 @@
-const Agency = require('../models/agency');
+const Currency = require('../models/currency');
 
 exports.getCurrencies = async (req, res, next) => {
 	try {
-		const currencies = await Agency.fetchAll();
+		const currencies = await Currency.fetchAll();
 		return res.json({
 			result: true,
 			currencies,

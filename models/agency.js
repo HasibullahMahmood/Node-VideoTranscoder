@@ -6,7 +6,7 @@ module.exports = class Agency {
 			const pool = await sql.connect();
 			const agencies = await pool
 				.request()
-				.query(`SELECT * FROM Currency;`);
+				.query(`SELECT * FROM Agency;`);
 			return agencies.recordset;
 		} catch (err) {
 			console.log(err);
