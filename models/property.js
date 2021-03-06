@@ -87,6 +87,22 @@ module.exports = class Property {
 		}
 	};
 
+	static fetchAllNames = async (companyId) => {
+		try {
+			const pool = await sql.connect();
+			const Property = await pool
+				.request()
+				.input('companyId', sql.Int, companyId)
+				.query(
+					`SELECT id, name FROM Property WHERE Property.companyId = @companyId;`
+				);
+			return Property.recordset;
+		} catch (err) {
+			console.log(err);
+			throw err;
+		}
+	};
+
 	static update = async (
 		id,
 		name,

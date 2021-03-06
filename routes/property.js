@@ -28,4 +28,7 @@ router.delete(
 // /property
 router.get('', isAuthActive, propertyController.getProperties);
 
+// /property/names
+router.get('/names', isAuthActive, propertyController.getPropertiesName);
+
 module.exports = router;

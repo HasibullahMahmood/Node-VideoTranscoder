@@ -129,3 +129,16 @@ exports.getProperties = async (req, res, next) => {
 		next(error);
 	}
 };
+
+exports.getPropertiesName = async (req, res, next) => {
+	try {
+		const companyId = req.companyId;
+		const properties = await Property.fetchAllNames(companyId);
+		return res.json({
+			result: true,
+			properties,
+		});
+	} catch (error) {
+		next(error);
+	}
+};

@@ -22,8 +22,9 @@ const checkValidationError = (req) => {
 
 const getCurrentDate = () => {
 	let date = new Date();
+	let month = date.getMonth() + 1;
 	return (currentDate =
-		date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay());
+		date.getFullYear() + '-' + month + '-' + date.getDay());
 };
 
 const getCurrentTime = () => {
