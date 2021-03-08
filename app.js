@@ -30,6 +30,7 @@ const property_placesRoutes = require('./routes/property_places');
 const agenciesRoutes = require('./routes/agency');
 const currenciesRoutes = require('./routes/currency');
 const agencyPriceRoutes = require('./routes/agencyPrice');
+const agencyDiscountRoutes = require('./routes/agencyDiscount');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -76,6 +77,7 @@ app.use('/property_places', property_placesRoutes);
 app.use('/agencies', agenciesRoutes);
 app.use('/currencies', currenciesRoutes);
 app.use('/agency-price', agencyPriceRoutes);
+app.use('/agency-discount', agencyDiscountRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {

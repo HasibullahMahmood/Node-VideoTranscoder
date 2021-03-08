@@ -24,7 +24,7 @@ const getCurrentDate = () => {
 	let date = new Date();
 	let month = date.getMonth() + 1;
 	return (currentDate =
-		date.getFullYear() + '-' + month + '-' + date.getDay());
+		date.getFullYear() + '-' + month + '-' + date.getDate());
 };
 
 const getCurrentTime = () => {

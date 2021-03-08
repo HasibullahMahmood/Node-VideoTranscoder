@@ -1,14 +1,14 @@
-const AgencyPrice = require('../models/agencyPrice');
+const AgencyDiscount = require('../models/agencyDiscount');
 
 const { checkValidationError } = require('../util/utilityFunctions');
 
-exports.getAgencyPrices = async (req, res, next) => {
+exports.getAgencyDiscounts = async (req, res, next) => {
 	try {
 		const companyId = req.companyId;
-		const agencyPrices = await AgencyPrice.findById(companyId);
+		const agencyDiscounts = await AgencyDiscount.findById(companyId);
 		return res.json({
 			result: true,
-			agencyPrices,
+			agencyDiscounts,
 		});
 	} catch (error) {
 		next(error);
@@ -19,30 +19,28 @@ exports.add = async (req, res, next) => {
 	try {
 		checkValidationError(req);
 		const {
-			contractName,
+			discountName,
 			agency_id,
 			property_id,
 			startingDate,
 			endDate,
-			price,
-			currency_id,
+			discount,
 		} = req.body;
 		const companyId = req.companyId;
 
-		const agencyPrice = await new AgencyPrice(
-			contractName,
+		const agencyDiscount = await new AgencyDiscount(
+			discountName,
 			agency_id,
 			property_id,
 			startingDate,
 			endDate,
-			price,
-			currency_id,
+			discount,
 			companyId
 		).save();
 
 		return res.json({
 			result: true,
-			agencyPrice,
+			agencyDiscount,
 		});
 	} catch (error) {
 		next(error);
@@ -54,30 +52,28 @@ exports.update = async (req, res, next) => {
 		checkValidationError(req);
 		const {
 			id,
-			contractName,
+			discountName,
 			agency_id,
 			property_id,
 			startingDate,
 			endDate,
-			price,
-			currency_id,
+			discount,
 		} = req.body;
 		const companyId = req.companyId;
 
-		const updatedAgencyPrice = await AgencyPrice.update(
+		const updatedAgencyDiscount = await AgencyDiscount.update(
 			id,
-			contractName,
+			discountName,
 			agency_id,
 			property_id,
 			startingDate,
 			endDate,
-			price,
-			currency_id,
+			discount,
 			companyId
 		);
 		return res.json({
 			result: true,
-			updatedAgencyPrice,
+			updatedAgencyDiscount,
 		});
 	} catch (error) {
 		next(error);
@@ -90,7 +86,7 @@ exports.delete = async (req, res, next) => {
 		const companyId = req.companyId;
 		const id = req.body.id;
 
-		await AgencyPrice.delete(id, companyId);
+		await AgencyDiscount.delete(id, companyId);
 		return res.json({
 			result: true,
 		});

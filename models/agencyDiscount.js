@@ -1,24 +1,22 @@
 const sql = require('mssql');
 const { getCurrentDateTime } = require('../util/utilityFunctions');
 
-module.exports = class AgencyPrice {
+module.exports = class AgencyDiscount {
 	constructor(
-		contractName,
+		discountName,
 		agency_id,
 		property_id,
 		startingDate,
 		endDate,
-		price,
-		currency_id,
+		discount,
 		companies_id
 	) {
-		this.contractName = contractName;
+		this.discountName = discountName;
 		this.agency_id = agency_id;
 		this.property_id = property_id;
 		this.startingDate = startingDate;
 		this.endDate = endDate;
-		this.price = price;
-		this.currency_id = currency_id;
+		this.discount = discount;
 		this.companies_id = companies_id;
 	}
 
@@ -27,25 +25,24 @@ module.exports = class AgencyPrice {
 			let pool = await sql.connect();
 			let insertedOne = await pool
 				.request()
-				.input('contractName', sql.NVarChar, this.contractName)
+				.input('discountName', sql.NVarChar, this.discountName)
 				.input('agency_id', sql.Int, this.agency_id)
 				.input('property_id', sql.Int, this.property_id)
 				.input('startingDate', sql.Date, this.startingDate)
 				.input('endDate', sql.Date, this.endDate)
-				.input('price', sql.VarChar, this.price)
-				.input('currency_id', sql.Int, this.currency_id)
+				.input('discount', sql.VarChar, this.discount)
 				.input('createdAt', sql.NVarChar, getCurrentDateTime())
 				.input('companies_id', sql.Int, this.companies_id)
 				.query(
-					`INSERT INTO AgencyPrice (contractName, agency_id, property_id, startingDate,
-						 endDate, price, currency_id, createdAt, companies_id) 
-						 VALUES(@contractName, @agency_id, @property_id, @startingDate,
-							 @endDate, @price, @currency_id, @createdAt, @companies_id); 
-					 SELECT * FROM AgencyPrice WHERE AgencyPrice.id = SCOPE_IDENTITY();`
+					`INSERT INTO AgencyDiscount (discountName, agency_id, property_id, startingDate,
+						 endDate, discount, createdAt, companies_id) 
+						 VALUES(@discountName, @agency_id, @property_id, @startingDate,
+							 @endDate, @discount, @createdAt, @companies_id); 
+					 SELECT * FROM AgencyDiscount WHERE AgencyDiscount.id = SCOPE_IDENTITY();`
 				);
 			return insertedOne.recordset[0];
 		} catch (err) {
-			console.log('Error in saving the Agency Price: ');
+			console.log('Error in saving the Agency discount: ');
 			console.log(err);
 			throw err;
 		}
@@ -53,13 +50,12 @@ module.exports = class AgencyPrice {
 
 	static update = async (
 		id,
-		contractName,
+		discountName,
 		agency_id,
 		property_id,
 		startingDate,
 		endDate,
-		price,
-		currency_id,
+		discount,
 		companies_id
 	) => {
 		try {
@@ -67,35 +63,33 @@ module.exports = class AgencyPrice {
 			let updatedOne = await pool
 				.request()
 				.input('id', sql.Int, id)
-				.input('contractName', sql.NVarChar, contractName)
+				.input('discountName', sql.NVarChar, discountName)
 				.input('agency_id', sql.Int, agency_id)
 				.input('property_id', sql.Int, property_id)
 				.input('startingDate', sql.Date, startingDate)
 				.input('endDate', sql.Date, endDate)
-				.input('price', sql.VarChar, price)
-				.input('currency_id', sql.Int, currency_id)
+				.input('discount', sql.VarChar, discount)
 				.input('updatedAt', sql.NVarChar, getCurrentDateTime())
 				.input('companies_id', sql.Int, companies_id)
 
 				.query(
-					`UPDATE AgencyPrice
+					`UPDATE AgencyDiscount
 					 	SET 
-							contractName = @contractName,
+							discountName = @discountName,
 							agency_id = @agency_id,
 							property_id = @property_id,
 							startingDate = @startingDate,
 							endDate = @endDate,
-							price = @price,
-							currency_id = @currency_id,
+							discount = @discount,
 							updatedAt = @updatedAt,
 							companies_id = @companies_id
-						WHERE AgencyPrice.id=@id;
-					SELECT * FROM AgencyPrice Where id = @id;
+						WHERE AgencyDiscount.id=@id;
+					SELECT * FROM AgencyDiscount Where id = @id;
 					`
 				);
 			return updatedOne.recordset[0];
 		} catch (err) {
-			console.log('Error in updating the AgencyPrice: ');
+			console.log('Error in updating the AgencyDiscount: ');
 			console.log(err);
 			throw err;
 		}
@@ -105,11 +99,10 @@ module.exports = class AgencyPrice {
 		try {
 			let pool = await sql.connect();
 			let result = await pool.request().input('id', sql.Int, id)
-				.query(`SELECT AgencyPrice.*, Agency.name as agencyName, Property.name as propertyName, Currency.name as currencyName
-							FROM AgencyPrice
-							LEFT JOIN Agency ON AgencyPrice.agency_id = Agency.id
-							LEFT JOIN Property ON AgencyPrice.property_id = Property.id
-							LEFT JOIN Currency ON AgencyPrice.currency_id = Currency.id
+				.query(`SELECT AgencyDiscount.*, Agency.name as agencyName, Property.name as propertyName
+							FROM AgencyDiscount
+							LEFT JOIN Agency ON AgencyDiscount.agency_id = Agency.id
+							LEFT JOIN Property ON AgencyDiscount.property_id = Property.id
 							WHERE companies_id=@id;`);
 
 			return result.recordset;
@@ -127,10 +120,10 @@ module.exports = class AgencyPrice {
 				.input('id', sql.Int, id)
 				.input('companies_id', sql.Int, companies_id)
 				.query(
-					`DELETE FROM AgencyPrice 
-						WHERE AgencyPrice.id = @id
+					`DELETE FROM AgencyDiscount 
+						WHERE AgencyDiscount.id = @id
 						AND
-						AgencyPrice.companies_id=@companies_id;`
+						AgencyDiscount.companies_id=@companies_id;`
 				);
 
 			return result.recordset;
