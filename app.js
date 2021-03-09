@@ -31,6 +31,7 @@ const agenciesRoutes = require('./routes/agency');
 const currenciesRoutes = require('./routes/currency');
 const agencyPriceRoutes = require('./routes/agencyPrice');
 const agencyDiscountRoutes = require('./routes/agencyDiscount');
+const paymentMethodsRoutes = require('./routes/paymentMethods');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -78,6 +79,7 @@ app.use('/agencies', agenciesRoutes);
 app.use('/currencies', currenciesRoutes);
 app.use('/agency-price', agencyPriceRoutes);
 app.use('/agency-discount', agencyDiscountRoutes);
+app.use('/payment-methods', paymentMethodsRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {
