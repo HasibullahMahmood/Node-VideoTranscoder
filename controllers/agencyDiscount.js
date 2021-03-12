@@ -1,11 +1,29 @@
 const AgencyDiscount = require('../models/agencyDiscount');
-
 const { checkValidationError } = require('../util/utilityFunctions');
 
 exports.getAgencyDiscounts = async (req, res, next) => {
 	try {
 		const companyId = req.companyId;
-		const agencyDiscounts = await AgencyDiscount.findById(companyId);
+		const agencyDiscounts = await AgencyDiscount.fetchAll(companyId);
+		return res.json({
+			result: true,
+			agencyDiscounts,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getAllByConditions = async (req, res, next) => {
+	try {
+		checkValidationError(req);
+		const { agency_id, property_id, checkIn, checkOut } = req.body;
+		const agencyDiscounts = await AgencyDiscount.fetchAllByConditiones(
+			agency_id,
+			property_id,
+			checkIn,
+			checkOut
+		);
 		return res.json({
 			result: true,
 			agencyDiscounts,

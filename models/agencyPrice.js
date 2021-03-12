@@ -101,7 +101,7 @@ module.exports = class AgencyPrice {
 		}
 	};
 
-	static findById = async (id) => {
+	static fetchAll = async (id) => {
 		try {
 			let pool = await sql.connect();
 			let result = await pool.request().input('id', sql.Int, id)
@@ -111,6 +111,38 @@ module.exports = class AgencyPrice {
 							LEFT JOIN Property ON AgencyPrice.property_id = Property.id
 							LEFT JOIN Currency ON AgencyPrice.currency_id = Currency.id
 							WHERE companies_id=@id;`);
+
+			return result.recordset;
+		} catch (err) {
+			console.log(err);
+			throw err;
+		}
+	};
+
+	static fetchAllByConditiones = async (
+		agency_id,
+		property_id,
+		checkIn,
+		checkOut
+	) => {
+		try {
+			let pool = await sql.connect();
+			let result = await pool
+				.request()
+				.input('agency_id', sql.Int, agency_id)
+				.input('property_id', sql.Int, property_id)
+				.input('checkIn', sql.Date, checkIn)
+				.input('checkOut', sql.Date, checkOut)
+				.query(`SELECT AgencyPrice.*, Currency.name as currencyName
+							FROM AgencyPrice 
+							LEFT JOIN Currency ON currency_id = Currency.id
+							WHERE agency_id = @agency_id AND property_id = @property_id AND
+							(
+								(@checkIn <= startingDate AND @checkOut >= endDate) OR
+								(@checkIn >= startingDate AND @checkIn <= endDate) OR
+								(@checkOut >= endDate AND @checkOut <= endDate) OR
+								(@checkIn >= startingDate AND @checkOut <= endDate)
+							);`);
 
 			return result.recordset;
 		} catch (err) {

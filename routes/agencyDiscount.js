@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator/check');
+const { body, param } = require('express-validator/check');
 
 const controller = require('../controllers/agencyDiscount');
 const isAuthActive = require('../middleware/isAuth&Active');
@@ -36,6 +36,20 @@ router.put(
 	],
 	controller.update
 );
+
+// get /by-conditions
+router.post(
+	'/by-conditions',
+	isAuthActive,
+	[
+		body('agency_id').exists(),
+		body('property_id').exists(),
+		body('checkIn').exists(),
+		body('checkOut').exists(),
+	],
+	controller.getAllByConditions
+);
+
 // get agency discounts
 router.get('', isAuthActive, controller.getAgencyDiscounts);
 

@@ -1,33 +1,14 @@
-const AgencyPrice = require('../models/agencyPrice');
+const Reservation = require('../models/reservation');
 
 const { checkValidationError } = require('../util/utilityFunctions');
 
-exports.getAgencyPrices = async (req, res, next) => {
+exports.getReservations = async (req, res, next) => {
 	try {
 		const companyId = req.companyId;
-		const agencyPrices = await AgencyPrice.fetchAll(companyId);
+		const reservations = await Reservation.fetchAll(companyId);
 		return res.json({
 			result: true,
-			agencyPrices,
-		});
-	} catch (error) {
-		next(error);
-	}
-};
-
-exports.getAllByConditions = async (req, res, next) => {
-	try {
-		checkValidationError(req);
-		const { agency_id, property_id, checkIn, checkOut } = req.body;
-		const agencyPrices = await AgencyPrice.fetchAllByConditiones(
-			agency_id,
-			property_id,
-			checkIn,
-			checkOut
-		);
-		return res.json({
-			result: true,
-			agencyPrices,
+			reservations,
 		});
 	} catch (error) {
 		next(error);
@@ -38,30 +19,50 @@ exports.add = async (req, res, next) => {
 	try {
 		checkValidationError(req);
 		const {
-			contractName,
+			resDate,
+			statusCode,
 			agency_id,
 			property_id,
-			startingDate,
-			endDate,
-			price,
+			resNo,
+			checkIn,
+			checkOut,
+			name,
+			surname,
+			email,
+			phoneNo,
+			note,
+			paymentMethod_id,
+			priceType,
+			deposit,
+			total,
 			currency_id,
 		} = req.body;
 		const companyId = req.companyId;
 
-		const agencyPrice = await new AgencyPrice(
-			contractName,
+		const reservation = await new Reservation(
+			resDate,
+			statusCode,
 			agency_id,
 			property_id,
-			startingDate,
-			endDate,
-			price,
+			resNo,
+			checkIn,
+			checkOut,
+			name,
+			surname,
+			email,
+			phoneNo,
+			note,
+			paymentMethod_id,
+			priceType,
+			deposit,
+			total,
 			currency_id,
 			companyId
 		).save();
 
 		return res.json({
 			result: true,
-			agencyPrice,
+			reservation,
 		});
 	} catch (error) {
 		next(error);
@@ -72,31 +73,51 @@ exports.update = async (req, res, next) => {
 	try {
 		checkValidationError(req);
 		const {
-			id,
-			contractName,
+			resId,
+			resDate,
+			statusCode,
 			agency_id,
 			property_id,
-			startingDate,
-			endDate,
-			price,
+			resNo,
+			checkIn,
+			checkOut,
+			name,
+			surname,
+			email,
+			phoneNo,
+			note,
+			paymentMethod_id,
+			priceType,
+			deposit,
+			total,
 			currency_id,
 		} = req.body;
 		const companyId = req.companyId;
 
-		const updatedAgencyPrice = await AgencyPrice.update(
-			id,
-			contractName,
+		const reservation = await Reservation.update(
+			resId,
+			resDate,
+			statusCode,
 			agency_id,
 			property_id,
-			startingDate,
-			endDate,
-			price,
+			resNo,
+			checkIn,
+			checkOut,
+			name,
+			surname,
+			email,
+			phoneNo,
+			note,
+			paymentMethod_id,
+			priceType,
+			deposit,
+			total,
 			currency_id,
 			companyId
 		);
 		return res.json({
 			result: true,
-			updatedAgencyPrice,
+			reservation,
 		});
 	} catch (error) {
 		next(error);
@@ -109,7 +130,7 @@ exports.delete = async (req, res, next) => {
 		const companyId = req.companyId;
 		const id = req.body.id;
 
-		await AgencyPrice.delete(id, companyId);
+		await Reservation.delete(id, companyId);
 		return res.json({
 			result: true,
 		});
