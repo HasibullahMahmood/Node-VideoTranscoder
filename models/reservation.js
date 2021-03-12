@@ -18,7 +18,7 @@ module.exports = class Reservation {
 		note,
 		paymentMethod_id,
 		priceType,
-		totolPrice,
+		totalPrice,
 		deposit,
 		currency_id,
 		company_id
@@ -38,7 +38,7 @@ module.exports = class Reservation {
 		this.note = note;
 		this.paymentMethod_id = paymentMethod_id;
 		this.priceType = priceType;
-		this.totolPrice = totolPrice;
+		this.totalPrice = totalPrice;
 		this.deposit = deposit;
 		this.currency_id = currency_id;
 		this.company_id = company_id;
@@ -79,6 +79,7 @@ module.exports = class Reservation {
 						@priceType, @totalPrice ,@deposit, @currency_id, @company_id, @createdAt); 
 					 SELECT * FROM Reservation WHERE Reservation.resId = SCOPE_IDENTITY();`
 				);
+
 			return insertedOne.recordset[0];
 		} catch (err) {
 			console.log('Error in saving the Reservation: ');

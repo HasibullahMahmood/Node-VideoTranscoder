@@ -1,5 +1,4 @@
 const Reservation = require('../models/reservation');
-
 const { checkValidationError } = require('../util/utilityFunctions');
 
 exports.getReservations = async (req, res, next) => {
@@ -132,9 +131,10 @@ exports.delete = async (req, res, next) => {
 	try {
 		checkValidationError(req);
 		const companyId = req.companyId;
-		const id = req.body.id;
+		const resId = req.body.resId;
 
-		await Reservation.delete(id, companyId);
+		await Reservation.delete(resId, companyId);
+
 		return res.json({
 			result: true,
 		});

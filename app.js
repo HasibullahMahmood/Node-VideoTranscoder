@@ -34,6 +34,7 @@ const agencyDiscountRoutes = require('./routes/agencyDiscount');
 const paymentMethodsRoutes = require('./routes/paymentMethods');
 const reservationRoutes = require('./routes/reservation');
 const reservationStatusesRoutes = require('./routes/resStatuses');
+const resDaysRoutes = require('./routes/resDays');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -84,6 +85,7 @@ app.use('/agency-discount', agencyDiscountRoutes);
 app.use('/payment-methods', paymentMethodsRoutes);
 app.use('/reservation', reservationRoutes);
 app.use('/reservation-statuses', reservationStatusesRoutes);
+app.use('/res-days', resDaysRoutes);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {
