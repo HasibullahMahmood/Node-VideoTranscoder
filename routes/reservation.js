@@ -20,7 +20,7 @@ router.post(
 		body('surname').exists(),
 		body('paymentMethod_id').exists(),
 		body('priceType').exists(),
-		body('total').exists(),
+		body('totalPrice').exists(),
 		body('currency_id').exists(),
 	],
 	controller.add
@@ -41,7 +41,7 @@ router.put(
 		body('surname').exists(),
 		body('paymentMethod_id').exists(),
 		body('priceType').exists(),
-		body('total').exists(),
+		body('totalPrice').exists(),
 		body('currency_id').exists(),
 	],
 	controller.update

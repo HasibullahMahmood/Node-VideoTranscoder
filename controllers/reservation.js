@@ -30,11 +30,12 @@ exports.add = async (req, res, next) => {
 			surname,
 			email,
 			phoneNo,
+			guestCount,
 			note,
 			paymentMethod_id,
 			priceType,
+			totalPrice,
 			deposit,
-			total,
 			currency_id,
 		} = req.body;
 		const companyId = req.companyId;
@@ -51,11 +52,12 @@ exports.add = async (req, res, next) => {
 			surname,
 			email,
 			phoneNo,
+			guestCount,
 			note,
 			paymentMethod_id,
 			priceType,
+			totalPrice,
 			deposit,
-			total,
 			currency_id,
 			companyId
 		).save();
@@ -85,11 +87,12 @@ exports.update = async (req, res, next) => {
 			surname,
 			email,
 			phoneNo,
+			guestCount,
 			note,
 			paymentMethod_id,
 			priceType,
+			totalPrice,
 			deposit,
-			total,
 			currency_id,
 		} = req.body;
 		const companyId = req.companyId;
@@ -107,11 +110,12 @@ exports.update = async (req, res, next) => {
 			surname,
 			email,
 			phoneNo,
+			guestCount,
 			note,
 			paymentMethod_id,
 			priceType,
+			totalPrice,
 			deposit,
-			total,
 			currency_id,
 			companyId
 		);

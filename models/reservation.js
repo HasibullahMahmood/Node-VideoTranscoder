@@ -14,11 +14,12 @@ module.exports = class Reservation {
 		surname,
 		email,
 		phoneNo,
+		guestCount,
 		note,
 		paymentMethod_id,
 		priceType,
+		totolPrice,
 		deposit,
-		total,
 		currency_id,
 		company_id
 	) {
@@ -33,11 +34,12 @@ module.exports = class Reservation {
 		this.surname = surname;
 		this.email = email;
 		this.phoneNo = phoneNo;
+		this.guestCount = guestCount;
 		this.note = note;
 		this.paymentMethod_id = paymentMethod_id;
 		this.priceType = priceType;
+		this.totolPrice = totolPrice;
 		this.deposit = deposit;
-		this.total = total;
 		this.currency_id = currency_id;
 		this.company_id = company_id;
 	}
@@ -58,22 +60,23 @@ module.exports = class Reservation {
 				.input('surname', sql.NVarChar, this.surname)
 				.input('email', sql.NVarChar, this.email)
 				.input('phoneNo', sql.NVarChar, this.phoneNo)
+				.input('guestCount', sql.Int, this.guestCount)
 				.input('note', sql.NVarChar, this.note)
 				.input('paymentMethod_id', sql.Int, this.paymentMethod_id)
 				.input('priceType', sql.Bit, this.priceType)
+				.input('totalPrice', sql.Float, this.totalPrice)
 				.input('deposit', sql.Float, this.deposit)
-				.input('total', sql.Float, this.total)
 				.input('currency_id', sql.Int, this.currency_id)
 				.input('company_id', sql.Int, this.company_id)
 				.input('createdAt', sql.DateTime, getCurrentDateTime())
 
 				.query(
 					`INSERT INTO Reservation (resDate, statusCode, agency_id, property_id, resNo,
-						checkIn, checkOut, name, surname, email, phoneNo, note, paymentMethod_id,
-						priceType,  deposit, total, currency_id, company_id, createdAt)
+						checkIn, checkOut, name, surname, email, phoneNo, guestCount, note, paymentMethod_id,
+						priceType, totalPrice, deposit, currency_id, company_id, createdAt)
 					VALUES(@resDate, @statusCode, @agency_id, @property_id, @resNo,
-						@checkIn, @checkOut, @name, @surname, @email, @phoneNo, @note, @paymentMethod_id,
-						@priceType, @deposit, @total, @currency_id, @company_id, @createdAt); 
+						@checkIn, @checkOut, @name, @surname, @email, @phoneNo, @guestCount, @note, @paymentMethod_id,
+						@priceType, @totalPrice ,@deposit, @currency_id, @company_id, @createdAt); 
 					 SELECT * FROM Reservation WHERE Reservation.resId = SCOPE_IDENTITY();`
 				);
 			return insertedOne.recordset[0];
@@ -97,11 +100,12 @@ module.exports = class Reservation {
 		surname,
 		email,
 		phoneNo,
+		guestCount,
 		note,
 		paymentMethod_id,
 		priceType,
+		totalPrice,
 		deposit,
-		total,
 		currency_id,
 		company_id
 	) => {
@@ -121,11 +125,12 @@ module.exports = class Reservation {
 				.input('surname', sql.NVarChar, surname)
 				.input('email', sql.NVarChar, email)
 				.input('phoneNo', sql.NVarChar, phoneNo)
+				.input('guestCount', sql.Int, guestCount)
 				.input('note', sql.NVarChar, note)
 				.input('paymentMethod_id', sql.Int, paymentMethod_id)
 				.input('priceType', sql.Bit, priceType)
+				.input('totalPrice', sql.Float, totalPrice)
 				.input('deposit', sql.Float, deposit)
-				.input('total', sql.Float, total)
 				.input('currency_id', sql.Int, currency_id)
 				.input('company_id', sql.Int, company_id)
 				.input('updatedAt', sql.DateTime, getCurrentDateTime())
@@ -144,11 +149,12 @@ module.exports = class Reservation {
 							surname = @surname,
 							email = @email,
 							phoneNo = @phoneNo,
+							guestCount = @guestCount,
 							note = @note,
 							paymentMethod_id = @paymentMethod_id,
 							priceType = @priceType,
+							totalPrice = @totalPrice,
 							deposit = @deposit,
-							total = @total,
 							currency_id = @currency_id,
 							updatedAt = @updatedAt
 							
