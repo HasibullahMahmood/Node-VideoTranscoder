@@ -23,9 +23,12 @@ module.exports = class ResDays {
 									VALUES `;
 
 			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.resId}, ${obj.agency_id}, ${obj.property_id}, '${obj.date_}',
-									${obj.guestCount}, ${obj.agencyPrice}, ${obj.agencyDiscount}, ${obj.subtotal},
-									'${obj.agencyPrice_id}', '${obj.agencyDiscount_id}'),`;
+				queryStatement += `(${obj.resId}, ${obj.agency_id}, ${
+					obj.property_id
+				}, '${obj.date_}',
+									${obj.guestCount}, ${obj.agencyPrice || 0}, ${obj.agencyDiscount || 0}, 
+									${obj.subtotal || 0},'${obj.agencyPrice_id || ''}',
+									 '${obj.agencyDiscount_id || ''}'),`;
 			});
 			queryStatement = queryStatement.slice(0, -1);
 

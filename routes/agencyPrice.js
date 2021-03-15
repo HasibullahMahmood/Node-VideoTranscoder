@@ -46,6 +46,7 @@ router.post(
 	[
 		body('agency_id').exists(),
 		body('property_id').exists(),
+		body('currency_id').exists(),
 		body('checkIn').exists(),
 		body('checkOut').exists(),
 	],

@@ -18,10 +18,17 @@ exports.getAgencyPrices = async (req, res, next) => {
 exports.getAllByConditions = async (req, res, next) => {
 	try {
 		checkValidationError(req);
-		const { agency_id, property_id, checkIn, checkOut } = req.body;
+		const {
+			agency_id,
+			property_id,
+			currency_id,
+			checkIn,
+			checkOut,
+		} = req.body;
 		const agencyPrices = await AgencyPrice.fetchAllByConditiones(
 			agency_id,
 			property_id,
+			currency_id,
 			checkIn,
 			checkOut
 		);

@@ -122,6 +122,7 @@ module.exports = class AgencyPrice {
 	static fetchAllByConditiones = async (
 		agency_id,
 		property_id,
+		currency_id,
 		checkIn,
 		checkOut
 	) => {
@@ -131,12 +132,16 @@ module.exports = class AgencyPrice {
 				.request()
 				.input('agency_id', sql.Int, agency_id)
 				.input('property_id', sql.Int, property_id)
+				.input('currency_id', sql.Int, currency_id)
 				.input('checkIn', sql.Date, checkIn)
 				.input('checkOut', sql.Date, checkOut)
 				.query(`SELECT AgencyPrice.*, Currency.name as currencyName
 							FROM AgencyPrice 
 							LEFT JOIN Currency ON currency_id = Currency.id
-							WHERE agency_id = @agency_id AND property_id = @property_id AND
+							WHERE
+								agency_id = @agency_id AND
+								property_id = @property_id AND
+								currency_id = @currency_id AND
 							(
 								(@checkIn <= startingDate AND @checkOut >= endDate) OR
 								(@checkIn >= startingDate AND @checkIn <= endDate) OR

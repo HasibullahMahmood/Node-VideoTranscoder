@@ -12,6 +12,7 @@ router.post(
 	isAuthActive,
 	[
 		body('resDate').exists(),
+		body('resStatus_id').exists(),
 		body('agency_id').exists(),
 		body('property_id').exists(),
 		body('checkIn').exists(),
@@ -33,6 +34,7 @@ router.put(
 	[
 		body('resId').exists(),
 		body('resDate').exists(),
+		body('resStatus_id').exists(),
 		body('agency_id').exists(),
 		body('property_id').exists(),
 		body('checkIn').exists(),

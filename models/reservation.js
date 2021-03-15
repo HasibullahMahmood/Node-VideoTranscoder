@@ -4,27 +4,28 @@ const { getCurrentDateTime } = require('../util/utilityFunctions');
 module.exports = class Reservation {
 	constructor(
 		resDate,
-		statusCode,
+		resStatus_id,
 		agency_id,
 		property_id,
-		resNo,
+		resNo = '',
 		checkIn,
 		checkOut,
 		name,
 		surname,
-		email,
-		phoneNo,
+		email = '',
+		phoneNo = '',
 		guestCount,
-		note,
+		note = '',
 		paymentMethod_id,
 		priceType,
 		totalPrice,
-		deposit,
+		deposit = 0,
 		currency_id,
-		company_id
+		company_id,
+		createdBy
 	) {
 		this.resDate = resDate;
-		this.statusCode = statusCode;
+		this.resStatus_id = resStatus_id;
 		this.agency_id = agency_id;
 		this.property_id = property_id;
 		this.resNo = resNo;
@@ -42,6 +43,7 @@ module.exports = class Reservation {
 		this.deposit = deposit;
 		this.currency_id = currency_id;
 		this.company_id = company_id;
+		this.createdBy = createdBy;
 	}
 
 	save = async () => {
@@ -50,7 +52,7 @@ module.exports = class Reservation {
 			let insertedOne = await pool
 				.request()
 				.input('resDate', sql.Date, this.resDate)
-				.input('statusCode', sql.NVarChar, this.statusCode)
+				.input('resStatus_id', sql.Int, this.resStatus_id)
 				.input('agency_id', sql.Int, this.agency_id)
 				.input('property_id', sql.Int, this.property_id)
 				.input('resNo', sql.NVarChar, this.resNo)
@@ -68,15 +70,16 @@ module.exports = class Reservation {
 				.input('deposit', sql.Float, this.deposit)
 				.input('currency_id', sql.Int, this.currency_id)
 				.input('company_id', sql.Int, this.company_id)
+				.input('createdBy', sql.Int, this.createdBy)
 				.input('createdAt', sql.DateTime, getCurrentDateTime())
 
 				.query(
-					`INSERT INTO Reservation (resDate, statusCode, agency_id, property_id, resNo,
+					`INSERT INTO Reservation (resDate, resStatus_id, agency_id, property_id, resNo,
 						checkIn, checkOut, name, surname, email, phoneNo, guestCount, note, paymentMethod_id,
-						priceType, totalPrice, deposit, currency_id, company_id, createdAt)
-					VALUES(@resDate, @statusCode, @agency_id, @property_id, @resNo,
+						priceType, totalPrice, deposit, currency_id, company_id, createdBy, createdAt)
+					VALUES(@resDate, @resStatus_id, @agency_id, @property_id, @resNo,
 						@checkIn, @checkOut, @name, @surname, @email, @phoneNo, @guestCount, @note, @paymentMethod_id,
-						@priceType, @totalPrice ,@deposit, @currency_id, @company_id, @createdAt); 
+						@priceType, @totalPrice ,@deposit, @currency_id, @company_id, @createdBy, @createdAt); 
 					 SELECT * FROM Reservation WHERE Reservation.resId = SCOPE_IDENTITY();`
 				);
 
@@ -91,24 +94,25 @@ module.exports = class Reservation {
 	static update = async (
 		resId,
 		resDate,
-		statusCode,
+		resStatus_id,
 		agency_id,
 		property_id,
-		resNo,
+		resNo = '',
 		checkIn,
 		checkOut,
 		name,
 		surname,
-		email,
-		phoneNo,
+		email = '',
+		phoneNo = '',
 		guestCount,
-		note,
+		note = '',
 		paymentMethod_id,
 		priceType,
 		totalPrice,
-		deposit,
+		deposit = 0,
 		currency_id,
-		company_id
+		company_id,
+		updatedBy
 	) => {
 		try {
 			let pool = await sql.connect();
@@ -116,7 +120,7 @@ module.exports = class Reservation {
 				.request()
 				.input('resId', sql.Int, resId)
 				.input('resDate', sql.Date, resDate)
-				.input('statusCode', sql.NVarChar, statusCode)
+				.input('resStatus_id', sql.Int, resStatus_id)
 				.input('agency_id', sql.Int, agency_id)
 				.input('property_id', sql.Int, property_id)
 				.input('resNo', sql.NVarChar, resNo)
@@ -134,13 +138,14 @@ module.exports = class Reservation {
 				.input('deposit', sql.Float, deposit)
 				.input('currency_id', sql.Int, currency_id)
 				.input('company_id', sql.Int, company_id)
+				.input('updatedBy', sql.Int, updatedBy)
 				.input('updatedAt', sql.DateTime, getCurrentDateTime())
 
 				.query(
 					`UPDATE Reservation
 					 	SET 
 							resDate = @resDate,
-							statusCode = @statusCode,
+							resStatus_id = @resStatus_id,
 							agency_id = @agency_id,
 							property_id = @property_id,
 							resNo = @resNo,
@@ -157,6 +162,7 @@ module.exports = class Reservation {
 							totalPrice = @totalPrice,
 							deposit = @deposit,
 							currency_id = @currency_id,
+							updatedBy = @updatedBy,
 							updatedAt = @updatedAt
 							
 						WHERE Reservation.resId=@resId AND Reservation.company_id=@company_id;
@@ -179,13 +185,16 @@ module.exports = class Reservation {
 				.input('company_id', sql.Int, company_id)
 				.query(`SELECT Reservation.*, Agency.name as agencyName, Property.name as propertyName,
 				               PaymentMethods.name as paymentMethodName, Currency.name as currencyName,
-							   ResStatuses.description as statusDescription
+							   ResStatuses.name as resStatusName, Creator.name as createdBy_name,
+							   Updater.name as updatedBy_name
 							FROM Reservation
 							LEFT JOIN Agency ON Reservation.agency_id = Agency.id
 							LEFT JOIN Property ON Reservation.property_id = Property.id
 							LEFT JOIN PaymentMethods ON Reservation.paymentMethod_id = PaymentMethods.id
 							LEFT JOIN Currency ON Reservation.currency_id = Currency.id
-							LEFT JOIN ResStatuses ON Reservation.statusCode = ResStatuses.code
+							LEFT JOIN ResStatuses ON Reservation.resStatus_id = ResStatuses.id
+							LEFT JOIN Users AS Creator ON Reservation.createdBy = Creator.id
+							LEFT JOIN Users AS Updater ON Reservation.updatedBy = Updater.id
 							WHERE Reservation.company_id=@company_id;`);
 
 			return result.recordset;

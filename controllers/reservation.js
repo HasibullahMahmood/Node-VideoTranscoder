@@ -19,7 +19,7 @@ exports.add = async (req, res, next) => {
 		checkValidationError(req);
 		const {
 			resDate,
-			statusCode,
+			resStatus_id,
 			agency_id,
 			property_id,
 			resNo,
@@ -38,10 +38,11 @@ exports.add = async (req, res, next) => {
 			currency_id,
 		} = req.body;
 		const companyId = req.companyId;
+		const userId = req.userId;
 
 		const reservation = await new Reservation(
 			resDate,
-			statusCode,
+			resStatus_id,
 			agency_id,
 			property_id,
 			resNo,
@@ -58,7 +59,8 @@ exports.add = async (req, res, next) => {
 			totalPrice,
 			deposit,
 			currency_id,
-			companyId
+			companyId,
+			userId
 		).save();
 
 		return res.json({
@@ -76,7 +78,7 @@ exports.update = async (req, res, next) => {
 		const {
 			resId,
 			resDate,
-			statusCode,
+			resStatus_id,
 			agency_id,
 			property_id,
 			resNo,
@@ -95,11 +97,12 @@ exports.update = async (req, res, next) => {
 			currency_id,
 		} = req.body;
 		const companyId = req.companyId;
+		const userId = req.userId;
 
 		const reservation = await Reservation.update(
 			resId,
 			resDate,
-			statusCode,
+			resStatus_id,
 			agency_id,
 			property_id,
 			resNo,
@@ -116,7 +119,8 @@ exports.update = async (req, res, next) => {
 			totalPrice,
 			deposit,
 			currency_id,
-			companyId
+			companyId,
+			userId
 		);
 		return res.json({
 			result: true,
