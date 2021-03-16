@@ -19,16 +19,20 @@ module.exports = class Property_IncludedInPriceFeatures {
 
 	static addProperty_IncludedInPriceFeatures = async (newObjects) => {
 		try {
-			let queryStatement = `INSERT INTO Property_IncludedInPriceFeatures (propertyId, includedInPriceFeatureId) VALUES `;
-
-			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.propertyId}, ${obj.includedInPriceFeatureId}),`;
-			});
-			queryStatement = queryStatement.slice(0, -1);
-
 			const pool = await sql.connect();
-			const result = await pool.request().query(queryStatement);
-			return result;
+			const ps = new sql.PreparedStatement(pool);
+			ps.input('propertyId', sql.Int);
+			ps.input('includedInPriceFeatureId', sql.Int);
+
+			await ps.prepare(`INSERT INTO Property_IncludedInPriceFeatures
+										(propertyId, includedInPriceFeatureId)
+									VALUES
+									 	(@propertyId, @includedInPriceFeatureId);`);
+
+			await newObjects.reduce(async (prev, row) => {
+				await prev;
+				return ps.execute(row);
+			}, Promise.resolve());
 		} catch (error) {
 			console.log(error);
 			throw error;

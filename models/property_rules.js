@@ -19,16 +19,20 @@ module.exports = class Property_Rules {
 
 	static addProperty_Rules = async (newObjects) => {
 		try {
-			let queryStatement = `INSERT INTO Property_Rules (propertyId, ruleId) VALUES `;
-
-			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.propertyId}, ${obj.ruleId}),`;
-			});
-			queryStatement = queryStatement.slice(0, -1);
-
 			const pool = await sql.connect();
-			const result = await pool.request().query(queryStatement);
-			return result;
+			const ps = new sql.PreparedStatement(pool);
+			ps.input('propertyId', sql.Int);
+			ps.input('ruleId', sql.Int);
+
+			await ps.prepare(`INSERT INTO Property_Rules
+										(propertyId, ruleId)
+									VALUES
+									 	(@propertyId, @ruleId);`);
+
+			await newObjects.reduce(async (prev, row) => {
+				await prev;
+				return ps.execute(row);
+			}, Promise.resolve());
 		} catch (error) {
 			console.log(error);
 			throw error;

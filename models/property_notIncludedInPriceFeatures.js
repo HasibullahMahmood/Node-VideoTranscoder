@@ -19,16 +19,20 @@ module.exports = class Property_NotIncludedInPriceFeatures {
 
 	static addProperty_NotIncludedInPriceFeatures = async (newObjects) => {
 		try {
-			let queryStatement = `INSERT INTO Property_NotIncludedInPriceFeatures (propertyId, notIncludedInPriceFeatureId) VALUES `;
-
-			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.propertyId}, ${obj.notIncludedInPriceFeatureId}),`;
-			});
-			queryStatement = queryStatement.slice(0, -1);
-
 			const pool = await sql.connect();
-			const result = await pool.request().query(queryStatement);
-			return result;
+			const ps = new sql.PreparedStatement(pool);
+			ps.input('propertyId', sql.Int);
+			ps.input('notIncludedInPriceFeatureId', sql.Int);
+
+			await ps.prepare(`INSERT INTO Property_NotIncludedInPriceFeatures
+										(propertyId, notIncludedInPriceFeatureId)
+									VALUES
+									 	(@propertyId, @notIncludedInPriceFeatureId);`);
+
+			await newObjects.reduce(async (prev, row) => {
+				await prev;
+				return ps.execute(row);
+			}, Promise.resolve());
 		} catch (error) {
 			console.log(error);
 			throw error;

@@ -17,26 +17,30 @@ module.exports = class ResDays {
 
 	static add = async (newObjects) => {
 		try {
-			let queryStatement = `INSERT INTO ResDays 
-									(resId, agency_id, property_id, date_, guestCount,
-									 agencyPrice, agencyDiscount, subtotal, agencyPrice_id, agencyDiscount_id)
-									VALUES `;
-
-			newObjects.forEach((obj) => {
-				queryStatement += `(${obj.resId}, ${obj.agency_id}, ${
-					obj.property_id
-				}, '${obj.date_}',
-									${obj.guestCount}, ${obj.agencyPrice || 0}, ${obj.agencyDiscount || 0}, 
-									${obj.subtotal || 0},'${obj.agencyPrice_id || ''}',
-									 '${obj.agencyDiscount_id || ''}'),`;
-			});
-			queryStatement = queryStatement.slice(0, -1);
-
 			const pool = await sql.connect();
-			const result = await pool
-				.request()
-				.query(queryStatement, [newObjects]);
-			return result;
+			const ps = new sql.PreparedStatement(pool);
+			ps.input('resId', sql.Int);
+			ps.input('agency_id', sql.Int);
+			ps.input('property_id', sql.Int);
+			ps.input('date_', sql.DateTime);
+			ps.input('guestCount', sql.Int);
+			ps.input('agencyPrice', sql.Float);
+			ps.input('agencyDiscount', sql.Float);
+			ps.input('subtotal', sql.Float);
+			ps.input('agencyPrice_id', sql.Int);
+			ps.input('agencyDiscount_id', sql.Int);
+
+			await ps.prepare(`INSERT INTO ResDays 
+			 						(resId, agency_id, property_id, date_, guestCount, agencyPrice,
+										agencyDiscount, subtotal, agencyPrice_id, agencyDiscount_id)
+			 						VALUES
+									 (@resId, @agency_id, @property_id, @date_, @guestCount, @agencyPrice,
+										@agencyDiscount, @subtotal, @agencyPrice_id, @agencyDiscount_id)`);
+
+			await newObjects.reduce(async (prev, row) => {
+				await prev;
+				return ps.execute(row);
+			}, Promise.resolve());
 		} catch (error) {
 			console.log(error);
 			throw error;
