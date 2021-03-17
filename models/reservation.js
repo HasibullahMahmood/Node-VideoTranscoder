@@ -204,6 +204,36 @@ module.exports = class Reservation {
 		}
 	};
 
+	static fetchByResStatus = async (resStatus_id, company_id) => {
+		try {
+			let pool = await sql.connect();
+			let result = await pool
+				.request()
+				.input('resStatus_id', sql.Int, resStatus_id)
+				.input('company_id', sql.Int, company_id)
+				.query(`SELECT Reservation.*, Agency.name as agencyName, Property.name as propertyName,
+				               PaymentMethods.name as paymentMethodName, Currency.name as currencyName,
+							   ResStatuses.name as resStatusName, Creator.name as createdBy_name,
+							   Updater.name as updatedBy_name
+							FROM Reservation
+							LEFT JOIN Agency ON Reservation.agency_id = Agency.id
+							LEFT JOIN Property ON Reservation.property_id = Property.id
+							LEFT JOIN PaymentMethods ON Reservation.paymentMethod_id = PaymentMethods.id
+							LEFT JOIN Currency ON Reservation.currency_id = Currency.id
+							LEFT JOIN ResStatuses ON Reservation.resStatus_id = ResStatuses.id
+							LEFT JOIN Users AS Creator ON Reservation.createdBy = Creator.id
+							LEFT JOIN Users AS Updater ON Reservation.updatedBy = Updater.id
+							WHERE
+								Reservation.resStatus_id=@resStatus_id AND
+								Reservation.company_id=@company_id;`);
+
+			return result.recordset;
+		} catch (err) {
+			console.log(err);
+			throw err;
+		}
+	};
+
 	static delete = async (resId, company_id) => {
 		try {
 			let pool = await sql.connect();

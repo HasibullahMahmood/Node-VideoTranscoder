@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator/check');
+const { body, query } = require('express-validator/check');
 
 const controller = require('../controllers/reservation');
 const isAuthActive = require('../middleware/isAuth&Active');
@@ -48,10 +48,14 @@ router.put(
 	],
 	controller.update
 );
-// get agency discounts
-router.get('', isAuthActive, controller.getReservations);
 
-// delete agency discounts
+router.get(
+	'',
+	isAuthActive,
+	[query('resStatus_id')],
+	controller.getReservationsByResStatus
+);
+
 router.delete('', isAuthActive, [body('resId').exists()], controller.delete);
 
 module.exports = router;
