@@ -16,10 +16,31 @@ exports.getReservations = async (req, res, next) => {
 
 exports.getReservationsByResStatus = async (req, res, next) => {
 	try {
+		checkValidationError(req);
 		const companyId = req.companyId;
 		const resStatus_id = req.query.resStatus_id;
 		const reservations = await Reservation.fetchByResStatus(
 			resStatus_id,
+			companyId
+		);
+		return res.json({
+			result: true,
+			reservations,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
+
+exports.getReservationsByDate = async (req, res, next) => {
+	try {
+		checkValidationError(req);
+		const companyId = req.companyId;
+		const { startDate, endDate } = req.query;
+
+		const reservations = await Reservation.fetchByDate(
+			startDate,
+			endDate,
 			companyId
 		);
 		return res.json({

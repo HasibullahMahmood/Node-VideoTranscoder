@@ -204,6 +204,33 @@ module.exports = class Reservation {
 		}
 	};
 
+	static fetchByDate = async (startDate, endDate, company_id) => {
+		try {
+			let pool = await sql.connect();
+			let result = await pool
+				.request()
+				.input('startDate', sql.Date, startDate)
+				.input('endDate', sql.Date, endDate)
+				.input('company_id', sql.Int, company_id)
+				.query(`SELECT Reservation.*, Property.name as propertyName
+							FROM Reservation
+							LEFT JOIN Property ON Reservation.property_id = Property.id
+							WHERE Reservation.company_id=@company_id AND
+									Reservation.resStatus_id != 5 AND
+									(
+										(@startDate >= checkIn AND @endDate <= checkOut) OR
+										(@startDate <= checkIn AND @endDate >= checkOut) OR
+										(@startDate <= checkIn AND @endDate >= checkIn) OR
+										(@startDate <= checkOut AND @endDate >= checkOut)
+									);`);
+
+			return result.recordset;
+		} catch (err) {
+			console.log(err);
+			throw err;
+		}
+	};
+
 	static fetchByResStatus = async (resStatus_id, company_id) => {
 		try {
 			let pool = await sql.connect();

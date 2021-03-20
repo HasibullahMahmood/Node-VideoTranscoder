@@ -50,9 +50,16 @@ router.put(
 );
 
 router.get(
+	'/by-date',
+	isAuthActive,
+	[query('startDate').exists(), query('endDate').exists()],
+	controller.getReservationsByDate
+);
+
+router.get(
 	'',
 	isAuthActive,
-	[query('resStatus_id')],
+	query('resStatus_id').exists(),
 	controller.getReservationsByResStatus
 );
 
