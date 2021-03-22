@@ -36,6 +36,12 @@ const getCurrentDateTime = () => {
 	return getCurrentDate() + ' ' + getCurrentTime();
 };
 
+const addDays = (date, days) => {
+	let result = new Date(date);
+	result.setDate(result.getDate() + days);
+	return result;
+};
+
 module.exports = {
 	capitalizeFirstLetter,
 	checkIsSuperUser,
@@ -43,4 +49,5 @@ module.exports = {
 	getCurrentDate,
 	getCurrentTime,
 	getCurrentDateTime,
+	addDays,
 };

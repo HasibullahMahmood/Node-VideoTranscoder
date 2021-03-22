@@ -1,5 +1,5 @@
 const sql = require('mssql');
-const { getCurrentDateTime } = require('../util/utilityFunctions');
+const { getCurrentDateTime, addDays } = require('../util/utilityFunctions');
 
 module.exports = class Reservation {
 	constructor(
@@ -206,6 +206,8 @@ module.exports = class Reservation {
 
 	static fetchByDate = async (startDate, endDate, company_id) => {
 		try {
+			startDate = addDays(startDate, -1);
+			endDate = addDays(endDate, +1);
 			let pool = await sql.connect();
 			let result = await pool
 				.request()
