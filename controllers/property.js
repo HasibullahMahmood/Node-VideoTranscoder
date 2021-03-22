@@ -17,7 +17,12 @@ exports.addProperty = async (req, res, next) => {
 			provinceId,
 			districtId,
 			address,
-			description,
+			englishDescription,
+			frenchDescription,
+			germanDescription,
+			russianDescription,
+			turkishDescription,
+			arabicDescription,
 		} = await req.body;
 		hasSwimmingPool = parseInt(hasSwimmingPool);
 		status = parseInt(status);
@@ -37,7 +42,12 @@ exports.addProperty = async (req, res, next) => {
 			provinceId,
 			districtId,
 			address,
-			description
+			englishDescription,
+			frenchDescription,
+			germanDescription,
+			russianDescription,
+			turkishDescription,
+			arabicDescription
 		);
 		propertyId = await property.save();
 
@@ -68,7 +78,12 @@ exports.updateProperty = async (req, res, next) => {
 			provinceId,
 			districtId,
 			address,
-			description,
+			englishDescription,
+			frenchDescription,
+			germanDescription,
+			russianDescription,
+			turkishDescription,
+			arabicDescription,
 		} = req.body;
 
 		const companyId = req.companyId;
@@ -90,7 +105,12 @@ exports.updateProperty = async (req, res, next) => {
 			provinceId,
 			districtId,
 			address,
-			description
+			englishDescription,
+			frenchDescription,
+			germanDescription,
+			russianDescription,
+			turkishDescription,
+			arabicDescription
 		);
 
 		return res.json({

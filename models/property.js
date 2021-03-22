@@ -16,7 +16,12 @@ module.exports = class Property {
 		provinceId,
 		districtId,
 		address,
-		description
+		englishDescription,
+		frenchDescription,
+		germanDescription,
+		russianDescription,
+		turkishDescription,
+		arabicDescription
 	) {
 		this.name = name;
 		this.shortName = shortName;
@@ -32,7 +37,12 @@ module.exports = class Property {
 		this.provinceId = provinceId;
 		this.districtId = districtId;
 		this.address = address;
-		this.description = description;
+		this.englishDescription = englishDescription;
+		this.frenchDescription = frenchDescription;
+		this.germanDescription = germanDescription;
+		this.russianDescription = russianDescription;
+		this.turkishDescription = turkishDescription;
+		this.arabicDescription = arabicDescription;
 	}
 
 	save = async () => {
@@ -54,14 +64,46 @@ module.exports = class Property {
 				.input('provinceId', sql.Int, this.provinceId)
 				.input('districtId', sql.Int, this.districtId)
 				.input('address', sql.NVarChar, this.address)
-				.input('description', sql.NVarChar, this.description)
-				.query(`INSERT INTO Property 
+				.input(
+					'englishDescription',
+					sql.NVarChar,
+					this.englishDescription
+				)
+				.input(
+					'frenchDescription',
+					sql.NVarChar,
+					this.frenchDescription
+				)
+				.input(
+					'germanDescription',
+					sql.NVarChar,
+					this.germanDescription
+				)
+				.input(
+					'russianDescription',
+					sql.NVarChar,
+					this.russianDescription
+				)
+				.input(
+					'turkishDescription',
+					sql.NVarChar,
+					this.turkishDescription
+				)
+				.input(
+					'arabicDescription',
+					sql.NVarChar,
+					this.arabicDescription
+				).query(`INSERT INTO Property 
                     (name, shortName, propertyTypeId, capacity, bedroomNumber,
 						 bedNumber, bathroomNumber, hasSwimmingPool,status, companyId,
-						 countryId, provinceId, districtId, address, description) 
+						 countryId, provinceId, districtId, address, englishDescription,
+						 frenchDescription, germanDescription, russianDescription, turkishDescription,
+						 arabicDescription)
 					VALUES(@name, @shortName, @propertyTypeId, @capacity, @bedroomNumber, 
 						@bedNumber, @bathroomNumber, @hasSwimmingPool, @status, @companyId,
-						@countryId, @provinceId, @districtId, @address, @description);
+						@countryId, @provinceId, @districtId, @address, @englishDescription,
+						 @frenchDescription, @germanDescription, @russianDescription, @turkishDescription,
+						 @arabicDescription);
 					SELECT id FROM Property WHERE id = SCOPE_IDENTITY();`);
 			return insertedProperty.recordset[0];
 		} catch (err) {
@@ -119,7 +161,12 @@ module.exports = class Property {
 		provinceId,
 		districtId,
 		address,
-		description
+		englishDescription,
+		frenchDescription,
+		germanDescription,
+		russianDescription,
+		turkishDescription,
+		arabicDescription
 	) => {
 		try {
 			const pool = await sql.connect();
@@ -140,7 +187,12 @@ module.exports = class Property {
 				.input('provinceId', sql.Int, provinceId)
 				.input('districtId', sql.Int, districtId)
 				.input('address', sql.NVarChar, address)
-				.input('description', sql.NVarChar, description)
+				.input('englishDescription', sql.NVarChar, englishDescription)
+				.input('frenchDescription', sql.NVarChar, frenchDescription)
+				.input('germanDescription', sql.NVarChar, germanDescription)
+				.input('russianDescription', sql.NVarChar, russianDescription)
+				.input('turkishDescription', sql.NVarChar, turkishDescription)
+				.input('arabicDescription', sql.NVarChar, arabicDescription)
 				.query(`UPDATE Property 
 					SET name=@name,
                         shortName=@shortName,
@@ -156,8 +208,12 @@ module.exports = class Property {
                         provinceId=@provinceId,
                         districtId=@districtId,
                         address=@address,
-                        description=@description
-						
+                        englishDescription=@englishDescription,
+                        frenchDescription=@frenchDescription,
+                        germanDescription=@germanDescription,
+                        russianDescription=@russianDescription,
+                        turkishDescription=@turkishDescription,
+                        arabicDescription=@arabicDescription
 						WHERE Property.id=@id;
 
 					SELECT *
@@ -166,6 +222,7 @@ module.exports = class Property {
 
 			return updatedProperty.recordset[0];
 		} catch (error) {
+			console.log('Error updating property');
 			console.log(error);
 			throw error;
 		}
