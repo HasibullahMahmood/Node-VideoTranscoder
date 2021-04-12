@@ -16,6 +16,8 @@ module.exports = class Property {
 		provinceId,
 		districtId,
 		address,
+		deposit,
+		commission,
 		englishDescription,
 		frenchDescription,
 		germanDescription,
@@ -37,6 +39,8 @@ module.exports = class Property {
 		this.provinceId = provinceId;
 		this.districtId = districtId;
 		this.address = address;
+		this.deposit = deposit;
+		this.commission = commission;
 		this.englishDescription = englishDescription;
 		this.frenchDescription = frenchDescription;
 		this.germanDescription = germanDescription;
@@ -64,6 +68,8 @@ module.exports = class Property {
 				.input('provinceId', sql.Int, this.provinceId)
 				.input('districtId', sql.Int, this.districtId)
 				.input('address', sql.NVarChar, this.address)
+				.input('deposit', sql.Int, this.deposit)
+				.input('commission', sql.Int, this.commission)
 				.input(
 					'englishDescription',
 					sql.NVarChar,
@@ -96,12 +102,12 @@ module.exports = class Property {
 				).query(`INSERT INTO Property 
                     (name, shortName, propertyTypeId, capacity, bedroomNumber,
 						 bedNumber, bathroomNumber, hasSwimmingPool,status, companyId,
-						 countryId, provinceId, districtId, address, englishDescription,
+						 countryId, provinceId, districtId, address, deposit, commission, englishDescription,
 						 frenchDescription, germanDescription, russianDescription, turkishDescription,
 						 arabicDescription)
 					VALUES(@name, @shortName, @propertyTypeId, @capacity, @bedroomNumber, 
 						@bedNumber, @bathroomNumber, @hasSwimmingPool, @status, @companyId,
-						@countryId, @provinceId, @districtId, @address, @englishDescription,
+						@countryId, @provinceId, @districtId, @address, @deposit, @commission, @englishDescription,
 						 @frenchDescription, @germanDescription, @russianDescription, @turkishDescription,
 						 @arabicDescription);
 					SELECT id FROM Property WHERE id = SCOPE_IDENTITY();`);
@@ -161,6 +167,8 @@ module.exports = class Property {
 		provinceId,
 		districtId,
 		address,
+		deposit,
+		commission,
 		englishDescription,
 		frenchDescription,
 		germanDescription,
@@ -187,6 +195,8 @@ module.exports = class Property {
 				.input('provinceId', sql.Int, provinceId)
 				.input('districtId', sql.Int, districtId)
 				.input('address', sql.NVarChar, address)
+				.input('deposit', sql.Int, deposit)
+				.input('commission', sql.Int, commission)
 				.input('englishDescription', sql.NVarChar, englishDescription)
 				.input('frenchDescription', sql.NVarChar, frenchDescription)
 				.input('germanDescription', sql.NVarChar, germanDescription)
@@ -208,6 +218,8 @@ module.exports = class Property {
                         provinceId=@provinceId,
                         districtId=@districtId,
                         address=@address,
+                        deposit=@deposit,
+                        commission=@commission,
                         englishDescription=@englishDescription,
                         frenchDescription=@frenchDescription,
                         germanDescription=@germanDescription,
