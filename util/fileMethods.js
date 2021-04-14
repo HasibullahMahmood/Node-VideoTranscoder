@@ -32,6 +32,27 @@ const getFileStorage = () => {
 	});
 };
 
+const getFileStorageForCompanyLogo = () => {
+	return multer.diskStorage({
+		destination: (req, file, cb) => {
+			let imagePath = path.join(__dirname, '..', 'public', 'companyLogo');
+
+			if (!fs.existsSync(imagePath)) {
+				fs.mkdirSync(imagePath, { recursive: true });
+			}
+
+			cb(null, imagePath);
+		},
+		filename: (req, file, cb) => {
+			const name =
+				new Date().toISOString().replace(/:/g, '-') +
+				'_' +
+				file.originalname;
+			cb(null, name);
+		},
+	});
+};
+
 const fileFilter = (req, file, cb) => {
 	if (
 		file.mimetype === 'image/png' ||
@@ -51,4 +72,9 @@ const clearImage = (filePath) => {
 	}
 };
 
-module.exports = { getFileStorage, fileFilter, clearImage };
+module.exports = {
+	getFileStorage,
+	fileFilter,
+	clearImage,
+	getFileStorageForCompanyLogo,
+};

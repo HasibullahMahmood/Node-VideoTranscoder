@@ -10,6 +10,10 @@ const config = {
 		enableArithAbort: true,
 		instancename: 'VIHOBOOK',
 	},
+	pool: {
+		max: 500,
+		min: 1,
+	},
 	port: 1433,
 };
 
