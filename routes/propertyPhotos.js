@@ -10,9 +10,18 @@ const router = express.Router();
 
 // SAVE THE IMAGES
 const uploadPhoto = multer({
-	storage: getFileStorage('propertyPhotos'),
+	storage: getFileStorage(),
 	fileFilter: fileFilter,
 }).single('propertyPhoto');
+
+//    /property-photos
+router.post(
+	'',
+	isAuthActive,
+	uploadPhoto,
+	body('propertyId').exists(),
+	photoController.addPhoto
+);
 
 //    /property-photos
 router.get(
@@ -20,15 +29,6 @@ router.get(
 	isAuthActive,
 	[query('propertyId').exists()],
 	photoController.getPhotos
-);
-
-//    /property-photos
-router.post(
-	'',
-	isAuthActive,
-	uploadPhoto,
-	[body('propertyId').exists()],
-	photoController.addPhoto
 );
 
 //    /property-photos

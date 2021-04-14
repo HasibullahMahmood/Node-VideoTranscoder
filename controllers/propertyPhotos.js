@@ -21,7 +21,13 @@ exports.addPhoto = async (req, res, next) => {
 	try {
 		checkValidationError(req);
 		const { propertyId } = req.body;
-		const photoRef = 'propertyPhotos/' + req.file.filename;
+		const photoRef =
+			'propertyPhotos/' +
+			req.companyId +
+			'/' +
+			propertyId +
+			'/' +
+			req.file.filename;
 		const photo = await new PropertyPhotos(photoRef, propertyId).save();
 		return res.json({
 			result: true,
@@ -39,7 +45,7 @@ exports.deletePhoto = async (req, res, next) => {
 		const photoData = await PropertyPhotos.findById(photoId);
 		const photoRef = photoData.photoRef;
 
-		const photo = await PropertyPhotos.delete(photoId);
+		await PropertyPhotos.delete(photoId);
 		clearImage(photoRef);
 
 		return res.json({
