@@ -37,6 +37,7 @@ const reservationStatusesRoutes = require('./routes/resStatuses');
 const resDaysRoutes = require('./routes/resDays');
 const regionsRoutes = require('./routes/regions');
 const property_regionsRoutes = require('./routes/property_regions');
+const homePagePhotos = require('./routes/homePagePhotos');
 
 const app = express();
 app.use(bodyParser.json()); // application/json
@@ -50,6 +51,11 @@ app.use(
 app.use(
 	'/propertyPhotos',
 	express.static(path.join(__dirname, 'public', 'propertyPhotos'))
+);
+
+app.use(
+	'/homePagePhotos',
+	express.static(path.join(__dirname, 'public', 'mainWebHomePagePhotos'))
 );
 
 // ROUTES HERE
@@ -90,6 +96,7 @@ app.use('/reservation-statuses', reservationStatusesRoutes);
 app.use('/res-days', resDaysRoutes);
 app.use('/regions', regionsRoutes);
 app.use('/property_regions', property_regionsRoutes);
+app.use('/home-page-photos', homePagePhotos);
 
 // CATCH THE ERROR
 app.use((error, req, res, next) => {
