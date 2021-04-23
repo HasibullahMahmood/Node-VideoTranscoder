@@ -4,7 +4,6 @@ const config = {
 	user: 'sa',
 	password: 'vihobook.48',
 	server: 'HAYRI-YILMAZ-12\\SQLEXPRESS',
-	
 	database: 'vihobook',
 	options: {
 		trustedconnection: true,
