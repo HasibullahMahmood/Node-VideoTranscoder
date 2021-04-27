@@ -1,5 +1,4 @@
 const express = require('express');
-const { body, query } = require('express-validator/check');
 const multer = require('multer'); // for uploading files
 
 const videoController = require('../controllers/videoController');
@@ -7,18 +6,13 @@ const { fileFilter, getFileStorage } = require('../util/fileMethods');
 
 const router = express.Router();
 
-// SAVE THE IMAGES
+// SAVE THE VIDEOS
 const uploadVideo = multer({
 	storage: getFileStorage(),
 	fileFilter: fileFilter,
 }).single('sourceVideo');
 
 //    /videos
-router.post(
-	'',
-	uploadVideo,
-	// body('propertyId').exists(),
-	videoController.addVideo
-);
+router.post('', uploadVideo, videoController.addVideo);
 
 module.exports = router;
