@@ -5,43 +5,13 @@ const fs = require('fs');
 const getFileStorage = () => {
 	return multer.diskStorage({
 		destination: (req, file, cb) => {
-			const companyId = req.companyId.toString();
-			const propertyId = req.body.propertyId.toString();
-			let imagePath = path.join(
-				__dirname,
-				'..',
-				'public',
-				'propertyPhotos',
-				companyId,
-				propertyId
-			);
+			let videoPath = path.join(__dirname, '..', 'public', 'videos');
 
-			if (!fs.existsSync(imagePath)) {
-				fs.mkdirSync(imagePath, { recursive: true });
+			if (!fs.existsSync(videoPath)) {
+				fs.mkdirSync(videoPath, { recursive: true });
 			}
 
-			cb(null, imagePath);
-		},
-		filename: (req, file, cb) => {
-			const name =
-				new Date().toISOString().replace(/:/g, '-') +
-				'_' +
-				file.originalname;
-			cb(null, name);
-		},
-	});
-};
-
-const getFileStorageForCompanyLogo = () => {
-	return multer.diskStorage({
-		destination: (req, file, cb) => {
-			let imagePath = path.join(__dirname, '..', 'public', 'companyLogo');
-
-			if (!fs.existsSync(imagePath)) {
-				fs.mkdirSync(imagePath, { recursive: true });
-			}
-
-			cb(null, imagePath);
+			cb(null, videoPath);
 		},
 		filename: (req, file, cb) => {
 			const name =
@@ -55,17 +25,25 @@ const getFileStorageForCompanyLogo = () => {
 
 const fileFilter = (req, file, cb) => {
 	if (
-		file.mimetype === 'image/png' ||
-		file.mimetype === 'image/jpg' ||
-		file.mimetype === 'image/jpeg'
+		file.mimetype === 'video/x-flv' ||
+		file.mimetype === 'video/mp4' ||
+		file.mimetype === 'application/x-mpegURL' ||
+		file.mimetype === 'video/MP2T' ||
+		file.mimetype === 'video/3gpp' ||
+		file.mimetype === 'video/quicktime' ||
+		file.mimetype === 'video/x-msvideo' ||
+		file.mimetype === 'video/mp1s' ||
+		file.mimetype === 'video/mp2p' ||
+		file.mimetype === 'video/x-ms-wmv'
 	) {
 		cb(null, true);
 	} else {
+		console.log("Couldn't find file format in mime types");
 		cb(null, false);
 	}
 };
 
-const clearImage = (filePath) => {
+const deleteFile = (filePath) => {
 	if (filePath != null) {
 		filePath = path.join(__dirname, '..', 'public', filePath);
 		fs.unlink(filePath, (err) => {});
@@ -75,6 +53,5 @@ const clearImage = (filePath) => {
 module.exports = {
 	getFileStorage,
 	fileFilter,
-	clearImage,
-	getFileStorageForCompanyLogo,
+	deleteFile,
 };
