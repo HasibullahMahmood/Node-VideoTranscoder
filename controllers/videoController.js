@@ -1,43 +1,41 @@
-const convertVideo = require("../util/converterFunction");
+const convertVideo = require('../util/converterFunction');
 
 exports.addVideo = async (req, res, next) => {
-  try {
-    let { selectedVideoFormat, selectedCodec, selectedResolutions } = req.body;
-    let { destination, filename, path } = req.file;
+	try {
+		let { selectedVideoFormat, selectedCodec, selectedResolutions } = req.body;
 
-    selectedVideoFormat = await JSON.parse(selectedVideoFormat);
-    selectedCodec = await JSON.parse(selectedCodec);
-    selectedResolutions = await JSON.parse(selectedResolutions);
+		let { destination, filename, path } = req.file;
 
-    console.log(selectedVideoFormat);
-    console.log(selectedCodec);
-    console.log(selectedResolutions);
+		selectedVideoFormat = await JSON.parse(selectedVideoFormat);
+		selectedCodec = await JSON.parse(selectedCodec);
+		selectedResolutions = await JSON.parse(selectedResolutions);
 
-    selectedResolutions.forEach((resolutions) => {
-      let outputFilePath =
-        destination +
-        "\\" +
-        filename.split(".")[0] +
-        "_" +
-        resolutions.size +
-        "." +
-        selectedVideoFormat.label;
+		selectedResolutions.forEach((resolution) => {
+			let outputFilePath =
+				destination +
+				'\\' +
+				filename.split('.')[0] +
+				'_' +
+				resolution.size +
+				'_' +
+				selectedCodec.label +
+				'Codec' +
+				'.' +
+				selectedVideoFormat.label;
 
-      console.log(selectedVideoFormat.label);
-      console.log(selectedCodec.label);
-      console.log(resolutions.size);
-      convertVideo(
-        path,
-        outputFilePath,
-        selectedVideoFormat.label,
-        selectedCodec.label,
-        resolutions.size
-      );
-    });
-    return res.json({
-      result: true,
-    });
-  } catch (error) {
-    next(error);
-  }
+			convertVideo(
+				(inputPath = path),
+				outputFilePath,
+				selectedVideoFormat.label,
+				selectedCodec.label,
+				resolution.size
+			);
+		});
+
+		return res.json({
+			result: true,
+		});
+	} catch (error) {
+		next(error);
+	}
 };
