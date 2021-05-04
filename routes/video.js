@@ -13,6 +13,6 @@ const uploadVideo = multer({
 }).single('sourceVideo');
 
 //    /videos
-router.post('', uploadVideo, videoController.addVideo);
+router.post('', uploadVideo, videoController.manageVideo);
 
 module.exports = router;
