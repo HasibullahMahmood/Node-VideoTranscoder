@@ -1,18 +1,18 @@
-const express = require('express');
-const multer = require('multer'); // for uploading files
+const express = require("express");
+const multer = require("multer"); // for uploading files
 
-const videoController = require('../controllers/videoController');
-const { fileFilter, getFileStorage } = require('../util/fileMethods');
+const videoController = require("../controllers/videoController");
+const { fileFilter, getFileStorage } = require("../util/fileMethods");
 
 const router = express.Router();
 
 // SAVE THE VIDEOS
 const uploadVideo = multer({
-	storage: getFileStorage(),
-	fileFilter: fileFilter,
-}).single('sourceVideo');
+  storage: getFileStorage(),
+  fileFilter: fileFilter,
+}).single("sourceVideo");
 
 //    /videos
-router.post('', uploadVideo, videoController.manageVideo);
+router.post("", uploadVideo, videoController.manageVideo);
 
 module.exports = router;
