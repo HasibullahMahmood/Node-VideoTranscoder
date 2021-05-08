@@ -1,649 +1,77 @@
-The server is running successfully!
-{
-  'inputPath: ': 'D:\\University\\computer engineering\\Fourth year\\Eighth semester\\Network Programming\\Course Project\\VideoConverter\\Node-VideoConverter\\public\\videos\\2021-05-04T16-16-35.743Z_58\\In Just 20 Seconds.mp4'
-}
-{
-  'outputPath: ': 'D:\\University\\computer engineering\\Fourth year\\Eighth semester\\Network Programming\\Course Project\\VideoConverter\\Node-VideoConverter\\public\\videos\\2021-05-04T16-16-35.743Z_58\\In Just 20 Seconds_640x480_libx264Codec.avi'
-}
-{ 'videoFormat: ': 'avi' }
-{ 'videoCodec: ': 'libx264' }
-{ 'videoResolution: ': '640x480' }
-Ffmpeg Started with command: ffmpeg -i D:\University\computer engineering\Fourth year\Eighth semester\Network Programming\Course Project\VideoConverter\Node-VideoConverter\public\videos\2021-05-04T16-16-35.743Z_58\In Just 20 Seconds.mp4 -y -vcodec libx264 -filter:v scale=w=640:h=480 -f avi D:\University\computer engineering\Fourth year\Eighth semester\Network Programming\Course Project\VideoConverter\Node-VideoConverter\public\videos\2021-05-04T16-16-35.743Z_58\In Just 20 Seconds_640x480_libx264Codec.avi
-codecData: 
-{
-  format: 'mov,mp4,m4a,3gp,3g2,mj2',
-  audio: 'aac (LC) (mp4a / 0x6134706D)',
-  video: 'h264 (Main) (avc1 / 0x31637661)',
-  duration: '00:00:58.82',
-  video_details: [
-    'h264 (Main) (avc1 / 0x31637661)',
-    'yuv420p(tv',
-    'bt709)',
-    '1280x720 [SAR 1:1 DAR 16:9]',
-    '1121 kb/s',
-    '25 fps',
-    '25 tbr',
-    '12800 tbn',
-    '50 tbc (default)'
-  ],
-  audio_details: [
-    'aac (LC) (mp4a / 0x6134706D)',
-    '44100 Hz',
-    'stereo',
-    'fltp',
-    '128 kb/s (default)'
-  ]
-}
-progress: 
-{
-  frames: 7,
-  currentFps: 0,
-  currentKbps: NaN,
-  targetSize: 10,
-  timemark: '00:00:00.00',
-  percent: 0
-}
-progress: 
-{
-  frames: 57,
-  currentFps: 0,
-  currentKbps: 61.9,
-  targetSize: 17,
-  timemark: '00:00:02.29',
-  percent: 3.893492145194137
-}
-progress: 
-{
-  frames: 78,
-  currentFps: 70,
-  currentKbps: 161.3,
-  targetSize: 55,
-  timemark: '00:00:02.79',
-  percent: 4.743599600476699
-}
-progress: 
-{
-  frames: 102,
-  currentFps: 58,
-  currentKbps: 220,
-  targetSize: 101,
-  timemark: '00:00:03.76',
-  percent: 6.392808063724871
-}
-progress: 
-{
-  frames: 113,
-  currentFps: 50,
-  currentKbps: 233.7,
-  targetSize: 121,
-  timemark: '00:00:04.25',
-  percent: 7.225913369901782
-}
-progress: 
-{
-  frames: 121,
-  currentFps: 35,
-  currentKbps: 241.5,
-  targetSize: 139,
-  timemark: '00:00:04.70',
-  percent: 7.991010079656088
-}
-progress: 
-{
-  frames: 139,
-  currentFps: 35,
-  currentKbps: 285.2,
-  targetSize: 180,
-  timemark: '00:00:05.17',
-  percent: 8.790111087621698
-}
-progress: 
-{
-  frames: 160,
-  currentFps: 36,
-  currentKbps: 307.3,
-  targetSize: 229,
-  timemark: '00:00:06.11',
-  percent: 10.388313103552916
-}
-progress: 
-{
-  frames: 178,
-  currentFps: 36,
-  currentKbps: 298.4,
-  targetSize: 256,
-  timemark: '00:00:07.02',
-  percent: 11.93550867216718
-}
-progress: 
-{
-  frames: 201,
-  currentFps: 37,
-  currentKbps: 263.2,
-  targetSize: 256,
-  timemark: '00:00:07.96',
-  percent: 13.533710688098397
-}
-progress: 
-{
-  frames: 221,
-  currentFps: 37,
-  currentKbps: 248.5,
-  targetSize: 256,
-  timemark: '00:00:08.43',
-  percent: 14.332811696064004
-}
-progress: 
-{
-  frames: 239,
-  currentFps: 37,
-  currentKbps: 224.3,
-  targetSize: 256,
-  timemark: '00:00:09.35',
-  percent: 15.897009413783922
-}
-progress: 
-{
-  frames: 248,
-  currentFps: 35,
-  currentKbps: 213.5,
-  targetSize: 256,
-  timemark: '00:00:09.82',
-  percent: 16.69611042174953
-}
-progress: 
-{
-  frames: 266,
-  currentFps: 35,
-  currentKbps: 407.5,
-  targetSize: 512,
-  timemark: '00:00:10.29',
-  percent: 17.495211429715138
-}
-progress: 
-{
-  frames: 288,
-  currentFps: 36,
-  currentKbps: 374.3,
-  targetSize: 512,
-  timemark: '00:00:11.20',
-  percent: 19.042406998329405
-}
-progress: 
-{
-  frames: 307,
-  currentFps: 35,
-  currentKbps: 345.3,
-  targetSize: 512,
-  timemark: '00:00:12.14',
-  percent: 20.640609014260622
-}
-progress: 
-{
-  frames: 319,
-  currentFps: 34,
-  currentKbps: 498.6,
-  targetSize: 768,
-  timemark: '00:00:12.61',
-  percent: 21.43971002222623
-}
-progress: 
-{
-  frames: 337,
-  currentFps: 34,
-  currentKbps: 480.7,
-  targetSize: 768,
-  timemark: '00:00:13.08',
-  percent: 22.238811030191837
-}
-progress: 
-{
-  frames: 361,
-  currentFps: 35,
-  currentKbps: 448.5,
-  targetSize: 768,
-  timemark: '00:00:14.02',
-  percent: 23.837013046123058
-}
-progress: 
-{
-  frames: 385,
-  currentFps: 35,
-  currentKbps: 421.8,
-  targetSize: 768,
-  timemark: '00:00:14.91',
-  percent: 25.35020431652602
-}
-progress: 
-{
-  frames: 408,
-  currentFps: 36,
-  currentKbps: 523,
-  targetSize: 1024,
-  timemark: '00:00:16.03',
-  percent: 27.254445016358957
-}
-progress: 
-{
-  frames: 434,
-  currentFps: 36,
-  currentKbps: 486.6,
-  targetSize: 1024,
-  timemark: '00:00:17.24',
-  percent: 29.311705058142756
-}
-progress: 
-{
-  frames: 459,
-  currentFps: 37,
-  currentKbps: 461.4,
-  targetSize: 1024,
-  timemark: '00:00:18.18',
-  percent: 30.909907074073978
-}
-progress: 
-{
-  frames: 486,
-  currentFps: 37,
-  currentKbps: 549.1,
-  targetSize: 1280,
-  timemark: '00:00:19.09',
-  percent: 32.45710264268824
-}
-progress: 
-{
-  frames: 511,
-  currentFps: 38,
-  currentKbps: 523.3,
-  targetSize: 1280,
-  timemark: '00:00:20.03',
-  percent: 34.05530465861946
-}
-progress: 
-{
-  frames: 535,
-  currentFps: 38,
-  currentKbps: 499.9,
-  targetSize: 1280,
-  timemark: '00:00:20.97',
-  percent: 35.65350667455067
-}
-progress: 
-{
-  frames: 561,
-  currentFps: 39,
-  currentKbps: 562.7,
-  targetSize: 1536,
-  timemark: '00:00:22.36',
-  percent: 38.016805400236194
-}
-progress: 
-{
-  frames: 585,
-  currentFps: 39,
-  currentKbps: 540.6,
-  targetSize: 1536,
-  timemark: '00:00:23.27',
-  percent: 39.564000968850465
-}
-progress: 
-{
-  frames: 611,
-  currentFps: 39,
-  currentKbps: 519.6,
-  targetSize: 1536,
-  timemark: '00:00:24.21',
-  percent: 41.16220298478168
-}
-progress: 
-{
-  frames: 639,
-  currentFps: 40,
-  currentKbps: 583.6,
-  targetSize: 1792,
-  timemark: '00:00:25.15',
-  percent: 42.7604050007129
-}
-progress: 
-{
-  frames: 663,
-  currentFps: 40,
-  currentKbps: 563.1,
-  targetSize: 1792,
-  timemark: '00:00:26.07',
-  percent: 44.324602718432814
-}
-progress: 
-{
-  frames: 686,
-  currentFps: 40,
-  currentKbps: 543,
-  targetSize: 1792,
-  timemark: '00:00:27.03',
-  percent: 45.956809032575336
-}
-progress: 
-{
-  frames: 707,
-  currentFps: 40,
-  currentKbps: 600.8,
-  targetSize: 2048,
-  timemark: '00:00:27.92',
-  percent: 47.4700003029783
-}
-progress: 
-{
-  frames: 731,
-  currentFps: 40,
-  currentKbps: 581.2,
-  targetSize: 2048,
-  timemark: '00:00:28.86',
-  percent: 49.06820231890951
-}
-progress: 
-{
-  frames: 757,
-  currentFps: 40,
-  currentKbps: 554.6,
-  targetSize: 2048,
-  timemark: '00:00:30.24',
-  percent: 51.41449889548938
-}
-progress: 
-{
-  frames: 785,
-  currentFps: 41,
-  currentKbps: 537.9,
-  targetSize: 2048,
-  timemark: '00:00:31.19',
-  percent: 53.02970306052626
-}
-progress: 
-{
-  frames: 810,
-  currentFps: 41,
-  currentKbps: 587.9,
-  targetSize: 2304,
-  timemark: '00:00:32.10',
-  percent: 54.57689862914052
-}
-progress: 
-{
-  frames: 833,
-  currentFps: 41,
-  currentKbps: 571.2,
-  targetSize: 2304,
-  timemark: '00:00:33.04',
-  percent: 56.17510064507174
-}
-progress: 
-{
-  frames: 852,
-  currentFps: 41,
-  currentKbps: 617.6,
-  targetSize: 2560,
-  timemark: '00:00:33.95',
-  percent: 57.72229621368601
-}
-progress: 
-{
-  frames: 869,
-  currentFps: 41,
-  currentKbps: 609.1,
-  targetSize: 2560,
-  timemark: '00:00:34.42',
-  percent: 58.52139722165162
-}
-progress: 
-{
-  frames: 887,
-  currentFps: 40,
-  currentKbps: 652.2,
-  targetSize: 2816,
-  timemark: '00:00:35.36',
-  percent: 60.11959923758283
-}
-progress: 
-{
-  frames: 906,
-  currentFps: 40,
-  currentKbps: 644.1,
-  targetSize: 2816,
-  timemark: '00:00:35.81',
-  percent: 60.88469594733714
-}
-progress: 
-{
-  frames: 924,
-  currentFps: 40,
-  currentKbps: 627.6,
-  targetSize: 2816,
-  timemark: '00:00:36.75',
-  percent: 62.48289796326836
-}
-progress: 
-{
-  frames: 942,
-  currentFps: 40,
-  currentKbps: 670.9,
-  targetSize: 3072,
-  timemark: '00:00:37.51',
-  percent: 63.77506129529784
-}
-progress: 
-{
-  frames: 966,
-  currentFps: 40,
-  currentKbps: 659.8,
-  targetSize: 3072,
-  timemark: '00:00:38.13',
-  percent: 64.82919453984823
-}
-progress: 
-{
-  frames: 987,
-  currentFps: 40,
-  currentKbps: 697.6,
-  targetSize: 3328,
-  timemark: '00:00:39.07',
-  percent: 66.42739655577945
-}
-progress: 
-{
-  frames: 1009,
-  currentFps: 40,
-  currentKbps: 681.7,
-  targetSize: 3328,
-  timemark: '00:00:39.99',
-  percent: 67.99159427349937
-}
-progress: 
-{
-  frames: 1033,
-  currentFps: 40,
-  currentKbps: 666,
-  targetSize: 3328,
-  timemark: '00:00:40.93',
-  percent: 69.58979628943057
-}
-progress: 
-{
-  frames: 1057,
-  currentFps: 41,
-  currentKbps: 701.1,
-  targetSize: 3584,
-  timemark: '00:00:41.87',
-  percent: 71.18799830536179
-}
-progress: 
-{
-  frames: 1081,
-  currentFps: 41,
-  currentKbps: 686.2,
-  targetSize: 3584,
-  timemark: '00:00:42.78',
-  percent: 72.73519387397606
-}
-progress: 
-{
-  frames: 1104,
-  currentFps: 41,
-  currentKbps: 668.6,
-  targetSize: 3584,
-  timemark: '00:00:43.91',
-  percent: 74.65643672291465
-}
-progress: 
-{
-  frames: 1131,
-  currentFps: 41,
-  currentKbps: 697.3,
-  targetSize: 3840,
-  timemark: '00:00:45.11',
-  percent: 76.6966946155928
-}
-progress: 
-{
-  frames: 1149,
-  currentFps: 41,
-  currentKbps: 690.1,
-  targetSize: 3840,
-  timemark: '00:00:45.58',
-  percent: 77.49579562355841
-}
-progress: 
-{
-  frames: 1170,
-  currentFps: 41,
-  currentKbps: 676.5,
-  targetSize: 3840,
-  timemark: '00:00:46.49',
-  percent: 79.04299119217268
-}
-progress: 
-{
-  frames: 1192,
-  currentFps: 41,
-  currentKbps: 707.3,
-  targetSize: 4096,
-  timemark: '00:00:47.43',
-  percent: 80.64119320810389
-}
-progress: 
-{
-  frames: 1213,
-  currentFps: 41,
-  currentKbps: 694,
-  targetSize: 4096,
-  timemark: '00:00:48.35',
-  percent: 82.2053909258238
-}
-progress: 
-{
-  frames: 1237,
-  currentFps: 41,
-  currentKbps: 680.7,
-  targetSize: 4096,
-  timemark: '00:00:49.29',
-  percent: 83.80359294175503
-}
-progress: 
-{
-  frames: 1260,
-  currentFps: 41,
-  currentKbps: 709.7,
-  targetSize: 4352,
-  timemark: '00:00:50.23',
-  percent: 85.40179495768623
-}
-progress: 
-{
-  frames: 1283,
-  currentFps: 41,
-  currentKbps: 697,
-  targetSize: 4352,
-  timemark: '00:00:51.14',
-  percent: 86.9489905263005
-}
-progress: 
-{
-  frames: 1306,
-  currentFps: 41,
-  currentKbps: 684.4,
-  targetSize: 4352,
-  timemark: '00:00:52.08',
-  percent: 88.54719254223173
-}
-progress: 
-{
-  frames: 1332,
-  currentFps: 41,
-  currentKbps: 712.2,
-  targetSize: 4608,
-  timemark: '00:00:53.00',
-  percent: 90.11139025995163
-}
-progress: 
-{
-  frames: 1360,
-  currentFps: 41,
-  currentKbps: 699.1,
-  targetSize: 4608,
-  timemark: '00:00:53.99',
-  percent: 91.79460302141112
-}
-progress: 
-{
-  frames: 1382,
-  currentFps: 41,
-  currentKbps: 686.5,
-  targetSize: 4608,
-  timemark: '00:00:54.98',
-  percent: 93.47781578287058
-}
-progress: 
-{
-  frames: 1406,
-  currentFps: 42,
-  currentKbps: 713.8,
-  targetSize: 4864,
-  timemark: '00:00:55.82',
-  percent: 94.90599630774528
-}
-progress: 
-{
-  frames: 1427,
-  currentFps: 41,
-  currentKbps: 702.6,
-  targetSize: 4864,
-  timemark: '00:00:56.71',
-  percent: 96.41918757814825
-}
-progress: 
-{
-  frames: 1449,
-  currentFps: 41,
-  currentKbps: 691.1,
-  targetSize: 4864,
-  timemark: '00:00:57.65',
-  percent: 98.01738959407948
-}
-progress: 
-{
-  frames: 1464,
-  currentFps: 41,
-  currentKbps: 721.3,
-  targetSize: 5120,
-  timemark: '00:00:58.14',
-  percent: 98.85049490025638
-}
-progress: 
-{
-  frames: 1470,
-  currentFps: 41,
-  currentKbps: 747.9,
-  targetSize: 5369,
-  timemark: '00:00:58.80',
-  percent: 99.97263674122937
-}
-640x480 file has been converted succesfully
+// app.get("/video/:folder/:file", function (req, res) {
+//   const vFile = req.params.file;
+//   const vFolder = req.params.folder;
+
+//   // Ensure there is a range given for the video
+//   const range = req.headers.range;
+//   if (!range) {
+//     res.status(400).send("Requires Range header");
+//   }
+
+//   // get video stats (about 61MB)
+//   const videoPath = `.\\public\\videos\\${vFolder}\\${vFile}`;
+//   const videoSize = fs.statSync(videoPath).size;
+
+//   // Parse Range
+//   // Example: "bytes=32324-"
+//   const CHUNK_SIZE = 10 ** 6; // 1MB
+//   const start = Number(range.replace(/\D/g, ""));
+//   const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+
+//   // Create headers
+//   const contentLength = end - start + 1;
+//   const headers = {
+//     "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+//     "Accept-Ranges": "bytes",
+//     "Content-Length": contentLength,
+//     "Content-Type": "video/mp4",
+//   };
+
+//   // HTTP Status 206 for Partial Content
+//   res.writeHead(206, headers);
+
+//   // create video read stream for this particular chunk
+//   const videoStream = fs.createReadStream(videoPath, { start, end });
+
+//   // Stream the video chunk to the client
+//   videoStream.pipe(res);
+// });
+
+// app.get("/download/:folder/:file", function (req, res) {
+//   const vFile = req.params.file;
+//   const vFolder = req.params.folder;
+
+//   // Ensure there is a range given for the video
+//   const range = req.headers.range;
+//   if (!range) {
+//     res.status(400).send("Requires Range header");
+//   }
+
+//   // get video stats (about 61MB)
+//   const videoPath = `.\\public\\videos\\${vFolder}\\${vFile}`;
+//   const videoSize = fs.statSync(videoPath).size;
+
+//   // Parse Range
+//   // Example: "bytes=32324-"
+//   const CHUNK_SIZE = 10 ** 6; // 1MB
+//   const start = Number(range.replace(/\D/g, ""));
+//   const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+
+//   // Create headers
+//   const contentLength = end - start + 1;
+//   const headers = {
+//     "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+//     "Accept-Ranges": "bytes",
+//     "Content-Length": contentLength,
+//     "Content-Type": "video/mp4",
+//   };
+
+//   // HTTP Status 206 for Partial Content
+//   res.writeHead(206, headers);
+
+//   // create video read stream for this particular chunk
+//   const videoStream = fs.createReadStream(videoPath, { start, end });
+
+//   // Stream the video chunk to the client
+//   videoStream.pipe(res);
+// });
