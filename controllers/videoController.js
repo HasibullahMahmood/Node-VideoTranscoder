@@ -110,6 +110,9 @@ const convertVideo = (
     })
     .on("error", (err) => {
       console.log("an error happened: " + err.message);
+      client.emit("Error", {
+        error: err.message,
+      });
     })
     // .on('stderr', function (stderrLine) {
     // 	console.log('Stderr output: ' + stderrLine);
