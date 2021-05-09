@@ -73,6 +73,7 @@ const convertVideo = (inputPath, outputPath, videoFolder, videoFile, videoFormat
 
 		.on('start', (commandLine) => {
 			console.log('Ffmpeg Started with command: ');
+
 			client.emit('Encoding', { action: 'start', resolution: videoResolution });
 		})
 		// .on('codecData', (data) => {

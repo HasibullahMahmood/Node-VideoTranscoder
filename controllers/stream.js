@@ -6,7 +6,7 @@ exports.manageStream = async (req, res, next) => {
 		const folderName = req.query['folder-name'];
 		const fileName = req.query['file-name'];
 		const videoPath = path.join(__dirname, '..', 'public', 'videos', folderName, fileName);
-		console.log(req.headers);
+
 		const range = req.headers.range;
 		if (!range) {
 			return res.status(400).send('Requires Range header');
